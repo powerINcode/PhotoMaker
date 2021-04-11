@@ -1,11 +1,13 @@
 package com.example.feature.photo.gallery.impl.ui
 
+import androidx.annotation.VisibleForTesting
 import com.example.feature.photo.gallery.impl.ui.PhotoGalleryContract.PhotoGalleryState
 import com.example.feature.photo.gallery.impl.ui.adapter.PhotoGalleryAdapter
 import com.example.repositories.api.photo.entities.Photo
 import com.example.ui.viewmodel.StateReducer
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class PhotoGalleryReducer @Inject constructor(): StateReducer<PhotoGalleryState>(PhotoGalleryState.EMPTY) {
@@ -28,6 +30,7 @@ class PhotoGalleryReducer @Inject constructor(): StateReducer<PhotoGalleryState>
     }
 
     companion object {
-        private val DATE_FORMATTER = DateTimeFormat.forPattern("dd MMMM, yyyy")
+        @VisibleForTesting
+        val DATE_FORMATTER: DateTimeFormatter = DateTimeFormat.forPattern("dd MMMM, yyyy")
     }
 }

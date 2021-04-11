@@ -25,7 +25,7 @@ class MakePhotoViewModel @Inject constructor(
 
     private var fileUri: Uri? = null
 
-    init {
+    override fun doInit() {
         intentOf<MakePhotoIntent.Back>()
             .flatMapDropCompletable {
                 deleteFileUseCase(requireNotNull(fileUri))

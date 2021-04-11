@@ -50,6 +50,8 @@ abstract class BaseActivity<Component : Any, State : Any, VM : BaseViewModel<Sta
         viewModel.state.observe(this) {
             render(it)
         }
+
+        viewModel.init()
     }
 
     override fun onDestroy() {

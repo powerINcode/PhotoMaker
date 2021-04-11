@@ -12,12 +12,11 @@ import javax.inject.Inject
 
 class PhotoGalleryViewModel @Inject constructor(
     private val calculatePhotoSizeUseCase: CalculateGridParamsUseCase,
-    observePhotosUseCase: ObservePhotosUseCase,
+    private val observePhotosUseCase: ObservePhotosUseCase,
     reducer: PhotoGalleryReducer
 ) : BaseViewModel<PhotoGalleryState, PhotoGalleryReducer>(reducer) {
 
-
-    init {
+    override fun doInit() {
         observePhotosUseCase()
             .toMainThread()
             .subscribeTillClear {

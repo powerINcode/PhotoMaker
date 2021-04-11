@@ -43,10 +43,10 @@ ext {
     ]
 
     data = [
-            room          : "androidx.room:room-runtime:$roomVersion",
-            roomCompiler  : "androidx.room:room-compiler:$roomVersion",
-            roomRxJava    : "androidx.room:room-rxjava3:2.3.0-rc01",
-            repo          : [
+            room        : "androidx.room:room-runtime:$roomVersion",
+            roomCompiler: "androidx.room:room-compiler:$roomVersion",
+            roomRxJava  : "androidx.room:room-rxjava3:2.3.0-rc01",
+            repo        : [
                     api : project(":repositories:api"),
                     impl: project(":repositories:impl")
             ]
@@ -62,7 +62,7 @@ ext {
     ]
 
     feature = [
-            makePhoto: [
+            makePhoto   : [
                     api : project(":feature_make_photo:api"),
                     impl: project(":feature_make_photo:impl")
             ],
@@ -78,5 +78,6 @@ ext {
             ui     : project(":core:ui"),
             streams: project(":core:streams"),
             domain : project(":core:domain"),
+            test   : project(":core:test"),
     ]
 }

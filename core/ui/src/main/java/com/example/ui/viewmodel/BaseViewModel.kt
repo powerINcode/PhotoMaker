@@ -12,6 +12,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class BaseViewModel<State : Any, Reducer : StateReducer<State>> constructor(
     val reducer: Reducer
@@ -27,6 +28,16 @@ abstract class BaseViewModel<State : Any, Reducer : StateReducer<State>> constru
     protected val _state: State get() = reducer.state
 
     protected val intentSubject = BehaviorSubject.create<Any>()
+
+    private val inited: AtomicBoolean = AtomicBoolean(false)
+
+    fun init() {
+        if (inited.compareAndSet(false, true)) {
+            doInit()
+        }
+    }
+
+    protected abstract fun doInit()
 
     fun send(intent: Any) {
         intentSubject.onNext(intent)

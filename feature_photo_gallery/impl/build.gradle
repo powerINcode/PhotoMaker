@@ -3,7 +3,7 @@ apply from: "../../feature_module_impl.gradle"
 dependencies {
     implementation feature.makePhoto.api
     implementation feature.photoGallery.api
-    implementation data.repo.api
+
     implementation core.ui
     implementation core.streams
 
@@ -11,5 +11,13 @@ dependencies {
     implementation ui.glide
     implementation ui.glideCompiler
 
+    implementation data.repo.api
+
     implementation domain.jodaTime
+
+    testImplementation test.junit
+    testImplementation test.mockito
+    testImplementation test.mockitoInline
+    testImplementation test.mockitoKotlin
+    testImplementation core.test
 }
