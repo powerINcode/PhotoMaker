@@ -1,0 +1,10 @@
+rootProject.name = "PhotoMaker"
+include ':app',
+        ':core:flow',
+        ':core:ui',
+        ':core:streams',
+        ':core:domain',
+        ':repositories:api',
+        ':repositories:impl',
+        ':feature_make_photo:api',
+        ':feature_make_photo:impl'

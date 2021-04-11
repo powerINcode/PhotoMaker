@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="make_photo_go_to_camera">Create photo</string>
+    <string name="make_photo_enter_photo_name">Type here photo name…</string>
+    <string name="make_photo_save_photo">Save photo</string>
+    <string name="make_photo_empty">Photo name can`t be empty</string>
+</resources>

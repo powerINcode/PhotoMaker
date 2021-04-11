@@ -1,0 +1,11 @@
+apply from: "../../feature_module_impl.gradle"
+
+dependencies {
+    implementation feature.makePhoto.api
+    implementation data.repo.api
+    implementation core.ui
+    implementation core.streams
+
+    implementation ui.glide
+    implementation ui.glideCompiler
+}

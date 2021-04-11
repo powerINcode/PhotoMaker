@@ -1,0 +1,61 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion project.compileSdk
+
+    defaultConfig {
+        applicationId "com.example.photomaker"
+        minSdkVersion project.minSdk
+        targetSdkVersion project.targetSdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    packagingOptions {
+        exclude 'META-INF/*.kotlin_module'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation core.flow
+
+    implementation ui.appcompat
+    implementation ui.material
+    implementation ui.constraintLayout
+
+    implementation domain.kotlin
+    implementation domain.ktxCore
+
+    implementation domain.dagger
+    implementation domain.daggerAndroid
+    implementation domain.daggerSupport
+    kapt domain.daggerCompiler
+    kapt domain.daggerProcessor
+
+    implementation data.repo.api
+    implementation data.repo.impl
+
+    implementation feature.makePhoto.api
+    implementation feature.makePhoto.impl
+}
