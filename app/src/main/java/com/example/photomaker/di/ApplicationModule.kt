@@ -1,6 +1,7 @@
 package com.example.photomaker.di
 
 import com.example.core.flow.FlowEntity
+import com.example.feature.photo.gallery.api.PhotoGalleryApi
 import com.example.feature_make_photo.api.MakePhotoApi
 import com.example.photomaker.di.keys.FlowModuleKey
 import com.example.repositories.api.RepositoriesApi
@@ -24,4 +25,10 @@ object ApplicationModule {
     @IntoMap
     @FlowModuleKey(MakePhotoApi::class)
     fun provideMakePhotoApi(flow: MakePhotoApi): FlowEntity = flow
+
+    @Singleton
+    @Provides
+    @IntoMap
+    @FlowModuleKey(PhotoGalleryApi::class)
+    fun providePhotoGalleryApi(flow: PhotoGalleryApi): FlowEntity = flow
 }

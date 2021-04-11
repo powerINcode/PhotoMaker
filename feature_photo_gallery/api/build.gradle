@@ -1,0 +1,5 @@
+apply from: "../../feature_module_api.gradle"
+
+dependencies {
+    implementation data.repo.api
+}

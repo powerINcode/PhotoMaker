@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class NavigatorImpl @Inject constructor(
     private val activity: AppCompatActivity
-): Navigator {
+) : Navigator {
 
     @SuppressLint("QueryPermissionsNeeded")
     override fun navigate(command: NavigationCommand) {
@@ -23,6 +23,12 @@ class NavigatorImpl @Inject constructor(
                     }
                 }
             }
+            is FeatureCommand<*> -> activity.startActivity(
+                Intent(
+                    activity,
+                    (activity.application as NavigationProvider).getNavigation(command.config::class.java)
+                )
+            )
         }
     }
 

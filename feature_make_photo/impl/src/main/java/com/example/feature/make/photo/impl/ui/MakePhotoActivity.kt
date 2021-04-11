@@ -46,7 +46,7 @@ class MakePhotoActivity : BaseActivity<MakePhotoActivityComponent, MakePhotoStat
 
         with(viewBinding) {
             createPhotoButton.setOnClickListener { viewModel.send(MakePhotoIntent.MakePhoto) }
-            savePhotoButton.setOnClickListener { viewModel.send(MakePhotoIntent.SavePhoto(name = photoNameEditText.text.toString())) }
+            savePhotoButton.setOnClickListener { savePhoto() }
         }
     }
 
@@ -61,5 +61,9 @@ class MakePhotoActivity : BaseActivity<MakePhotoActivityComponent, MakePhotoStat
 
     override fun onBackPressed() {
         viewModel.send(MakePhotoIntent.Back)
+    }
+
+    private fun savePhoto() {
+        viewModel.send(MakePhotoIntent.SavePhoto(name = viewBinding.photoNameEditText.text.toString()))
     }
 }

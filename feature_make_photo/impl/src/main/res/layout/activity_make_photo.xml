@@ -13,7 +13,8 @@
         app:layout_constraintBottom_toTopOf="@+id/photoNameEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <EditText
         android:id="@+id/photoNameEditText"
@@ -23,10 +24,14 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:maxLines="1"
+        android:inputType="text"
+        android:imeOptions="actionDone"
         android:hint="@string/make_photo_enter_photo_name"
         app:layout_constraintBottom_toTopOf="@+id/createPhotoButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/savePhotoButton"

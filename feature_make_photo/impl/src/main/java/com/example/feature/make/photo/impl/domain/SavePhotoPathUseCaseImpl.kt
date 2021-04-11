@@ -1,6 +1,6 @@
 package com.example.feature.make.photo.impl.domain
 
-import com.example.feature_make_photo.api.SavePhotoPathUseCase
+import com.example.feature_make_photo.api.domain.SavePhotoPathUseCase
 import com.example.repositories.api.photo.PhotoRepository
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject

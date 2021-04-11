@@ -1,4 +1,4 @@
-package com.example.feature_make_photo.api
+package com.example.feature_make_photo.api.domain
 
 import com.example.domain.CompletableUseCase
 

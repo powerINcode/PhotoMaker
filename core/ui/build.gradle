@@ -38,6 +38,7 @@ dependencies {
     implementation core.flow
 
     implementation ui.appcompat
+    implementation ui.recyclerView
     implementation ui.lifecycleActivityKtx
 
     implementation domain.kotlin

@@ -7,7 +7,7 @@ import com.example.ui.livedata.LiveEvent
 import com.example.ui.livedata.MutableLiveEvent
 import com.example.ui.navigation.NavigationCommand
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -46,7 +46,7 @@ abstract class BaseViewModel<State : Any, Reducer : StateReducer<State>> constru
     protected fun <T> Observable<T>.subscribeTillClear(onError: (Throwable) -> Unit = {}, block: ((T) -> Unit) = {}) =
         compositeDisposable.add(this.subscribe(block, onError))
 
-    protected fun <T> Maybe<T>.subscribeTillClear(onError: (Throwable) -> Unit = {}, block: ((T) -> Unit) = {}) =
+    protected fun <T> Flowable<T>.subscribeTillClear(onError: (Throwable) -> Unit = {}, block: ((T) -> Unit) = {}) =
         compositeDisposable.add(this.subscribe(block, onError))
 
     protected fun Completable.subscribeTillClear(onError: (Throwable) -> Unit = {}, block: (() -> Unit) = {}) =

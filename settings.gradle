@@ -7,4 +7,6 @@ include ':app',
         ':repositories:api',
         ':repositories:impl',
         ':feature_make_photo:api',
-        ':feature_make_photo:impl'
+        ':feature_make_photo:impl',
+        ':feature_photo_gallery:impl',
+        ':feature_photo_gallery:api'

@@ -39,6 +39,7 @@ android {
 dependencies {
 
     implementation core.flow
+    implementation core.ui
 
     implementation ui.appcompat
     implementation ui.material
@@ -58,4 +59,6 @@ dependencies {
 
     implementation feature.makePhoto.api
     implementation feature.makePhoto.impl
+    implementation feature.photoGallery.api
+    implementation feature.photoGallery.impl
 }

@@ -2,7 +2,7 @@ package com.example.feature.make.photo.impl.domain
 
 import android.app.Application
 import android.os.Environment
-import com.example.domain.SimpleUseCase
+import com.example.domain.SimpleSingleUseCase
 import io.reactivex.rxjava3.core.Single
 import java.io.File
 import java.io.IOException
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class CreateFileUseCase @Inject constructor(
     private val application: Application
-) : SimpleUseCase<File> {
+) : SimpleSingleUseCase<File> {
 
     override fun invoke(params: Unit): Single<File> = Single.fromCallable {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
