@@ -59,6 +59,7 @@ ext {
             mockitoKotlin  : "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
             androidJunit   : "androidx.test.ext:junit:1.1.2",
             androidEspresso: "androidx.test.espresso:espresso-core:3.3.0",
+            mokk           : "io.mockk:mockk:1.11.0",
     ]
 
     feature = [

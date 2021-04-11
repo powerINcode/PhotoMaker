@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.example.core.flow.FlowEntity
 import com.example.core.flow.FlowEntityProvider
-import com.example.ui.livedata.EventObserver
 import com.example.ui.navigation.Navigator
 import com.example.ui.viewmodel.BaseViewModel
 import io.reactivex.rxjava3.core.Observable
@@ -43,7 +42,7 @@ abstract class BaseActivity<Component : Any, State : Any, VM : BaseViewModel<Sta
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
-        viewModel.navigation.observe(this, EventObserver {
+        viewModel.navigation.observe(this, {
             navigator.navigate(it)
         })
 

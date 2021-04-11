@@ -29,7 +29,7 @@ class CalculateGridParamsUseCaseTest {
         // do
         val testObserver = useCase(params).test()
 
-        // verify
+        // assert
         testObserver
             .assertNoErrors()
             .assertValue(expected)

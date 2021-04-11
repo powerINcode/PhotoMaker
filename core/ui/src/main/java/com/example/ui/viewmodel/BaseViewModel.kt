@@ -1,10 +1,9 @@
 package com.example.ui.viewmodel
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.ui.livedata.LiveEvent
-import com.example.ui.livedata.MutableLiveEvent
 import com.example.ui.navigation.NavigationCommand
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
@@ -12,6 +11,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class BaseViewModel<State : Any, Reducer : StateReducer<State>> constructor(
@@ -22,8 +22,9 @@ abstract class BaseViewModel<State : Any, Reducer : StateReducer<State>> constru
 
     val state: LiveData<State> get() = reducer.stateObservable.toLiveData()
 
-    private val _navigation: MutableLiveEvent<NavigationCommand> = MutableLiveEvent()
-    val navigation: LiveEvent<NavigationCommand> get() = _navigation
+    @VisibleForTesting
+    val _navigation: PublishSubject<NavigationCommand> = PublishSubject.create()
+    val navigation: LiveData<NavigationCommand> get() = _navigation.toLiveData()
 
     protected val _state: State get() = reducer.state
 
@@ -44,7 +45,7 @@ abstract class BaseViewModel<State : Any, Reducer : StateReducer<State>> constru
     }
 
     fun navigate(command: NavigationCommand) {
-        _navigation.event = command
+        _navigation.onNext(command)
     }
 
     override fun onCleared() {

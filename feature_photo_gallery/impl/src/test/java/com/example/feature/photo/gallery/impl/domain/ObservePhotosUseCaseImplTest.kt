@@ -44,7 +44,7 @@ class ObservePhotosUseCaseImplTest {
         // do
         val testObserver = useCase().test()
 
-        // verify
+        // assert
         testObserver
             .assertNoErrors()
             .assertValueCount(2)

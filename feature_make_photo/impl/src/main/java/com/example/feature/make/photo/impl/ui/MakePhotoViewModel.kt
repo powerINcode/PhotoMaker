@@ -24,6 +24,7 @@ class MakePhotoViewModel @Inject constructor(
 ) : BaseViewModel<MakePhotoState, MakePhotoReducer>(reducer) {
 
     private var fileUri: Uri? = null
+    private var photoMadeSuccessfully: Boolean = false
 
     override fun doInit() {
         intentOf<MakePhotoIntent.Back>()
@@ -35,6 +36,7 @@ class MakePhotoViewModel @Inject constructor(
             .subscribeTillClear()
 
         intentOf<MakePhotoIntent.PhotoMade>()
+            .doOnNext { photoMadeSuccessfully = true }
             .subscribeTillClear {
                 val fileUri = requireNotNull(fileUri)
                 reducer.photoMade(fileUri)
@@ -42,27 +44,37 @@ class MakePhotoViewModel @Inject constructor(
 
         intentOf<MakePhotoIntent.SavePhoto>()
             .flatMapDropCompletable { intent ->
-                if (intent.name.isBlank()) {
-                    reducer.photoNameEmpty()
-                    Completable.complete()
-                } else {
-                    reducer.startSavePhoto()
-                    val path = requireNotNull(fileUri)
-                    val params = SavePhotoPathUseCase.Params(
-                        name = intent.name,
-                        path = path.toString()
-                    )
+                when {
+                    intent.name.isBlank() -> {
+                        reducer.photoNameEmpty()
+                        Completable.complete()
+                    }
+                    !photoMadeSuccessfully -> {
+                        reducer.photoNotMade()
+                        Completable.complete()
+                    }
+                    else -> {
+                        reducer.startSavePhoto()
+                        val path = requireNotNull(fileUri)
+                        val params = SavePhotoPathUseCase.Params(
+                            name = intent.name,
+                            path = path.toString()
+                        )
 
-                    savePhotoPathUseCase(params)
-                        .doOnError { reducer.photoNotSaved(it.message) }
-                        .doOnComplete { navigate(Finish) }
-                        .onErrorComplete()
+                        savePhotoPathUseCase(params)
+                            .doOnError { reducer.photoNotSaved(it.message) }
+                            .doOnComplete { navigate(Finish) }
+                            .onErrorComplete()
+                    }
                 }
             }
             .subscribeTillClear()
 
         intentOf<MakePhotoIntent.MakePhoto>()
             .flatMapDropCompletable {
+                reducer.startMakingPhoto()
+                photoMadeSuccessfully = false
+
                 createFileUseCase()
                     .flatMap { file -> getFileUriUseCase(file) }
                     .toMainThread()

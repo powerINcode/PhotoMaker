@@ -19,6 +19,18 @@ class MakePhotoReducer @Inject constructor(): StateReducer<MakePhotoState>(MakeP
         ).commit()
     }
 
+    fun photoNotMade() {
+        state.copy(
+            error = ResourceText(R.string.make_photo_not_made)
+        ).commit()
+    }
+
+    fun startMakingPhoto() {
+        state.copy(
+            error = null
+        ).commit()
+    }
+
     fun startSavePhoto() {
         state.copy(
             loading = true,

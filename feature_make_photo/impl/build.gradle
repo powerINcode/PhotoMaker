@@ -8,4 +8,10 @@ dependencies {
 
     implementation ui.glide
     implementation ui.glideCompiler
+
+    testImplementation test.junit
+    testImplementation test.mockito
+    testImplementation test.mockitoInline
+    testImplementation test.mockitoKotlin
+    testImplementation core.test
 }

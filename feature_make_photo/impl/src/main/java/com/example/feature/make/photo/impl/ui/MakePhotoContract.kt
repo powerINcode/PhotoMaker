@@ -1,6 +1,7 @@
 package com.example.feature.make.photo.impl.ui
 
 import android.net.Uri
+import androidx.annotation.VisibleForTesting
 import com.example.ui.textview.TextDelegate
 
 interface MakePhotoContract {
@@ -26,6 +27,7 @@ interface MakePhotoContract {
     }
 
     companion object {
+        @VisibleForTesting
         const val REQUEST_CODE_MAKE_PHOTO = 1000
     }
 }

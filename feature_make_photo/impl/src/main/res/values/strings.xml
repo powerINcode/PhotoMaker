@@ -4,4 +4,5 @@
     <string name="make_photo_enter_photo_name">Type here photo name…</string>
     <string name="make_photo_save_photo">Save photo</string>
     <string name="make_photo_empty">Photo name can`t be empty</string>
+    <string name="make_photo_not_made">Please make a photo and the we`ll can save it</string>
 </resources>
