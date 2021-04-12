@@ -10,4 +10,6 @@ include ':app',
         ':feature_make_photo:api',
         ':feature_make_photo:impl',
         ':feature_photo_gallery:impl',
-        ':feature_photo_gallery:api'
+        ':feature_photo_gallery:api',
+        ':feature_browse_photo:api',
+        ':feature_browse_photo:impl'

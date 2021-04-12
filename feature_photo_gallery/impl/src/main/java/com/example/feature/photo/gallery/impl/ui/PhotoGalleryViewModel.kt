@@ -1,6 +1,8 @@
 package com.example.feature.photo.gallery.impl.ui
 
+import android.os.Bundle
 import com.example.core.sreams.toMainThread
+import com.example.feature.browse.photo.api.BrowsePhotoFlowConfig
 import com.example.feature.photo.gallery.api.domain.ObservePhotosUseCase
 import com.example.feature.photo.gallery.impl.domain.CalculateGridParamsUseCase
 import com.example.feature.photo.gallery.impl.ui.PhotoGalleryContract.PhotoGalleryIntent
@@ -38,5 +40,12 @@ class PhotoGalleryViewModel @Inject constructor(
 
         intentOf<PhotoGalleryIntent.MakePhoto>()
             .subscribeTillClear { navigate(FeatureCommand(MakePhotoFlowConfig)) }
+
+        intentOf<PhotoGalleryIntent.PhotoClick>()
+            .subscribeTillClear { intent ->
+                navigate(FeatureCommand(BrowsePhotoFlowConfig, extra = Bundle().apply {
+                    putLong(BrowsePhotoFlowConfig.EXTRA_KEY_PHOTO_ID, intent.photoId)
+                }))
+            }
     }
 }

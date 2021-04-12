@@ -10,11 +10,12 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import javax.inject.Inject
 
-class PhotoGalleryReducer @Inject constructor(): StateReducer<PhotoGalleryState>(PhotoGalleryState.EMPTY) {
+class PhotoGalleryReducer @Inject constructor() : StateReducer<PhotoGalleryState>(PhotoGalleryState.EMPTY) {
     fun setPhotos(photos: List<Photo>) {
         state.copy(photos = photos.map { photo ->
             PhotoGalleryAdapter.Model(
                 id = photo.id.toString(),
+                photoId = photo.id,
                 name = photo.name,
                 date = DATE_FORMATTER.print(LocalDate(photo.createdAt.millis)),
                 path = photo.path

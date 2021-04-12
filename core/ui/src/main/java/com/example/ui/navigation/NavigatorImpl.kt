@@ -14,7 +14,13 @@ class NavigatorImpl @Inject constructor(
     override fun navigate(command: NavigationCommand) {
         when (command) {
             is Finish -> activity.finish()
-            is ActivityCommand<*> -> activity.startActivity(Intent(activity, command.destination))
+            is ActivityCommand<*> -> {
+                val intent = Intent(activity, command.destination)
+                if (command.extra != null) {
+                    intent.putExtras(command.extra)
+                }
+                activity.startActivity(intent)
+            }
             is CreatePhotoCommand -> {
                 Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
                     takePictureIntent.resolveActivity(activity.packageManager)?.apply {
@@ -23,12 +29,10 @@ class NavigatorImpl @Inject constructor(
                     }
                 }
             }
-            is FeatureCommand<*> -> activity.startActivity(
-                Intent(
-                    activity,
-                    (activity.application as NavigationProvider).getNavigation(command.config::class.java)
-                )
-            )
+            is FeatureCommand<*> -> {
+                val requestedActivityClass = (activity.application as NavigationProvider).getNavigation(command.config::class.java)
+                navigate(ActivityCommand(requestedActivityClass, extra = command.extra))
+            }
         }
     }
 

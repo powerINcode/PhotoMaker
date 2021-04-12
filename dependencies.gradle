@@ -64,7 +64,7 @@ ext {
             androidEspressoIntent: "androidx.test.espresso:espresso-intents:$esspressoVersion",
             androidRunner        : "androidx.test:runner:$androidTestVersion",
             androidRules         : "androidx.test:rules:$androidTestVersion",
-            uiautomator         : "com.android.support.test.uiautomator:uiautomator-v18:2.1.3",
+            uiautomator          : "com.android.support.test.uiautomator:uiautomator-v18:2.1.3",
             mokk                 : "io.mockk:mockk:1.11.0",
     ]
 
@@ -77,6 +77,11 @@ ext {
             photoGallery: [
                     api : project(":feature_photo_gallery:api"),
                     impl: project(":feature_photo_gallery:impl")
+            ],
+
+            browsePhoto : [
+                    api : project(":feature_browse_photo:api"),
+                    impl: project(":feature_browse_photo:impl")
             ]
     ]
 

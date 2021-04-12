@@ -1,6 +1,7 @@
 package com.example.ui.navigation
 
 import android.net.Uri
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.core.flow.FlowConfig
 
@@ -13,12 +14,12 @@ sealed class NavigationCommand
  * Navigate to the feature
  * @param config describe [FlowConfig] attached to the feature
  */
-data class FeatureCommand<T : FlowConfig>(val config: T) : NavigationCommand()
+data class FeatureCommand<T : FlowConfig>(val config: T, val extra: Bundle? = null) : NavigationCommand()
 
 /**
  * Navigate to the activity
  */
-data class ActivityCommand<T : AppCompatActivity>(val destination: Class<T>) : NavigationCommand()
+data class ActivityCommand<T : AppCompatActivity>(val destination: Class<T>, val extra: Bundle? = null) : NavigationCommand()
 
 /**
  * Navigate to the camera application

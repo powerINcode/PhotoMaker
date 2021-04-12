@@ -3,6 +3,7 @@ package com.example.photomaker.di
 import androidx.appcompat.app.AppCompatActivity
 import com.example.core.flow.FlowConfig
 import com.example.core.flow.FlowEntity
+import com.example.feature.browse.photo.api.BrowsePhotoApi
 import com.example.feature.photo.gallery.api.PhotoGalleryApi
 import com.example.feature_make_photo.api.MakePhotoApi
 import com.example.repositories.api.RepositoriesApi
@@ -18,7 +19,8 @@ import javax.inject.Singleton
     dependencies = [
         RepositoriesApi::class,
         MakePhotoApi::class,
-        PhotoGalleryApi::class
+        PhotoGalleryApi::class,
+        BrowsePhotoApi::class
     ]
 )
 interface ApplicationComponent {
@@ -31,7 +33,8 @@ interface ApplicationComponent {
         fun create(
             repositoriesApi: RepositoriesApi,
             makePhotoApi: MakePhotoApi,
-            photoGalleryApi: PhotoGalleryApi
+            photoGalleryApi: PhotoGalleryApi,
+            browsePhotoApi: BrowsePhotoApi
         ): ApplicationComponent
     }
 }

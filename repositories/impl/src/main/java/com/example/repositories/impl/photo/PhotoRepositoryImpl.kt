@@ -7,6 +7,7 @@ import com.example.repositories.impl.database.daos.PhotoDao
 import com.example.repositories.impl.database.entities.PhotoDbo
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 import org.joda.time.Instant
 import javax.inject.Inject
 
@@ -19,6 +20,10 @@ internal class PhotoRepositoryImpl @Inject constructor(
         path = path,
         createdAt = Instant.now().millis
     ))
+        .onIo()
+
+    override fun getPhoto(id: Long): Single<Photo> = photoDao.getPhoto(id)
+        .map { dbo -> mapper.map(dbo) }
         .onIo()
 
     override fun observePhotos(): Flowable<List<Photo>> = photoDao.observeAllPhotos().map { photos ->

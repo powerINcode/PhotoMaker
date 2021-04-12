@@ -2,6 +2,7 @@ apply from: "../../feature_module_impl.gradle"
 
 dependencies {
     implementation feature.makePhoto.api
+    implementation feature.browsePhoto.api
     implementation feature.photoGallery.api
 
     implementation core.ui

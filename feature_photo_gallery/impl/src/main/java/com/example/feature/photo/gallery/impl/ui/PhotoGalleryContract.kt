@@ -25,5 +25,6 @@ interface PhotoGalleryContract {
     sealed class PhotoGalleryIntent {
         data class ContainerSizeChange(val containerSize: Int, val defaultItemSize: Int) : PhotoGalleryIntent()
         object MakePhoto : PhotoGalleryIntent()
+        data class PhotoClick(val photoId: Long) : PhotoGalleryIntent()
     }
 }

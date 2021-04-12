@@ -8,6 +8,7 @@ import com.example.ui.navigation.NavigationCommand
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
@@ -56,6 +57,9 @@ abstract class BaseViewModel<State : Any, Reducer : StateReducer<State>> constru
     protected inline fun <reified T : Any> intentOf(): Observable<T> = intentSubject.ofType(T::class.java)
 
     protected fun <T> Observable<T>.subscribeTillClear(onError: (Throwable) -> Unit = {}, block: ((T) -> Unit) = {}) =
+        compositeDisposable.add(this.subscribe(block, onError))
+
+    protected fun <T> Single<T>.subscribeTillClear(onError: (Throwable) -> Unit = {}, block: ((T) -> Unit) = {}) =
         compositeDisposable.add(this.subscribe(block, onError))
 
     protected fun <T> Flowable<T>.subscribeTillClear(onError: (Throwable) -> Unit = {}, block: ((T) -> Unit) = {}) =

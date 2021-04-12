@@ -49,6 +49,10 @@ class PhotoGalleryActivity : BaseActivity<PhotoGalleryActivityComponent, PhotoGa
 
             makeNewPhotoButton.setOnClickListener { viewModel.send(PhotoGalleryIntent.MakePhoto) }
         }
+
+        galleryAdapter.onPhotoClick = { model ->
+            viewModel.send(PhotoGalleryIntent.PhotoClick(model.photoId))
+        }
     }
 
     override fun render(state: PhotoGalleryState) {

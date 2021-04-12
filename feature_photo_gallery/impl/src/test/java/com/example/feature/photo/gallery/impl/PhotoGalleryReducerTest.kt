@@ -35,6 +35,7 @@ class PhotoGalleryReducerTest {
         val expected = listOf(
             PhotoGalleryAdapter.Model(
                 id = photo.id.toString(),
+                photoId = photo.id,
                 name = photo.name,
                 date = PhotoGalleryReducer.DATE_FORMATTER.print(LocalDate(photo.createdAt.millis)),
                 path = photo.path

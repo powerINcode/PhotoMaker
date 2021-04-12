@@ -17,12 +17,16 @@ class PhotoGalleryAdapter: BaseRecyclerView<Model, ViewHolder>() {
 
     var itemSize: Int = 0
 
+    var onPhotoClick: ((Model) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_photo, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(itemSize, items[position])
+        val item = items[position]
+        holder.bind(itemSize, item)
+        holder.itemView.setOnClickListener { onPhotoClick?.invoke(item) }
     }
 
     class ViewHolder(view: View): BaseRecyclerView.BaseViewHolder<Model>(view) {
@@ -52,6 +56,7 @@ class PhotoGalleryAdapter: BaseRecyclerView<Model, ViewHolder>() {
 
     data class Model(
         override val id: String,
+        val photoId: Long,
         val name: String,
         val date: String,
         val path: String

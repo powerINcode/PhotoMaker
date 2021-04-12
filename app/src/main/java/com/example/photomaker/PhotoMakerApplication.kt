@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.core.flow.FlowConfig
 import com.example.core.flow.FlowEntity
 import com.example.core.flow.FlowEntityProvider
+import com.example.feature.browse.photo.impl.di.DaggerBrowsePhotoFlowComponent
 import com.example.feature.make.photo.impl.di.DaggerMakePhotoFlowComponent
 import com.example.feature.photo.gallery.impl.di.DaggerPhotoGalleryFlowComponent
 import com.example.photomaker.di.ApplicationComponent
@@ -27,14 +28,14 @@ class PhotoMakerApplication : Application(), FlowEntityProvider, NavigationProvi
     override fun onCreate() {
         super.onCreate()
 
-
         val repositoriesApi = DaggerRepositoryComponent.factory().create(application = this)
         applicationComponent = DaggerApplicationComponent.factory().create(
             repositoriesApi = repositoriesApi,
             makePhotoApi = DaggerMakePhotoFlowComponent.factory().create(
                 photoRepository = repositoriesApi
             ),
-            photoGalleryApi = DaggerPhotoGalleryFlowComponent.factory().create(repositoriesApi)
+            photoGalleryApi = DaggerPhotoGalleryFlowComponent.factory().create(repositoriesApi),
+            browsePhotoApi = DaggerBrowsePhotoFlowComponent.factory().create(repositoriesApi)
         )
     }
 

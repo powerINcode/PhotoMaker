@@ -61,6 +61,8 @@ dependencies {
     implementation feature.makePhoto.impl
     implementation feature.photoGallery.api
     implementation feature.photoGallery.impl
+    implementation feature.browsePhoto.api
+    implementation feature.browsePhoto.impl
 
     testImplementation test.junit
     androidTestImplementation test.androidJunit
