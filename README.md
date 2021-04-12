@@ -35,3 +35,7 @@ PhotoMaker uses a number of open source projects to work properly:
 
 Since the **api** is much less common than the **impl**, all modules should depend only on the **api** of other modules, thus the changes affected within the **impl** will not affect other modules in any way, thereby reducing the time to build the application. The only module that will be rebuilt is the app, since it only depends on the **api** and **impl** features
 ![Diagram](https://github.com/powerINcode/PhotoMaker/blob/main/photomaker_diagram.jpeg)
+
+## Next steps
+- If application will be growth and will have some nested functions in the feature then will need to add Fragment support navigation to separate functionality of the feature
+- Improve design and usability
