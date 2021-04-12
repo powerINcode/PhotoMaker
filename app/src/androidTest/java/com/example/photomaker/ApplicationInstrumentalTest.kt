@@ -16,6 +16,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.feature.make.photo.impl.ui.MakePhotoActivity
 import com.example.feature.photo.gallery.impl.ui.PhotoGalleryActivity
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,10 +27,18 @@ class ApplicationInstrumentalTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(PhotoGalleryActivity::class.java)
 
+    @Before
+    fun setUp() {
+        Intents.init()
+    }
+
+    @After
+    fun cleanup() {
+        Intents.release()
+    }
+
     @Test
     fun checkNavigationToMakePhoto() {
-        Intents.init()
-
         onView(withId(R.id.makeNewPhotoButton)).perform(click())
 
         intended(hasComponent(MakePhotoActivity::class.java.name))
@@ -36,8 +46,6 @@ class ApplicationInstrumentalTest {
 
     @Test
     fun checkNavigationToCreatePhotoRightAfterLaunch() {
-        Intents.init()
-
         onView(withId(R.id.makeNewPhotoButton)).perform(click())
 
         intended(IntentMatchers.hasAction(MediaStore.ACTION_IMAGE_CAPTURE))
@@ -45,8 +53,6 @@ class ApplicationInstrumentalTest {
 
     @Test
     fun checkNavigationToCreatePhotoAfterButtonClick() {
-        Intents.init()
-
         onView(withId(R.id.makeNewPhotoButton)).perform(click())
 
         intended(IntentMatchers.hasAction(MediaStore.ACTION_IMAGE_CAPTURE))
@@ -60,8 +66,6 @@ class ApplicationInstrumentalTest {
 
     @Test
     fun checkErrorWhenTryToSaveEmptyName() {
-        Intents.init()
-
         onView(withId(R.id.makeNewPhotoButton)).perform(click())
 
         intended(IntentMatchers.hasAction(MediaStore.ACTION_IMAGE_CAPTURE))
