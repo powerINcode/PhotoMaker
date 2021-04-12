@@ -37,6 +37,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:maxLines="1"
+        android:ellipsize="end"
         tools:text="Winter party" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
