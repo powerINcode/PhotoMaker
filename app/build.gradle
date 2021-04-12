@@ -61,4 +61,13 @@ dependencies {
     implementation feature.makePhoto.impl
     implementation feature.photoGallery.api
     implementation feature.photoGallery.impl
+
+    testImplementation test.junit
+    androidTestImplementation test.androidJunit
+    androidTestImplementation test.androidEspresso
+    androidTestImplementation test.androidRunner
+    androidTestImplementation test.androidRules
+    androidTestImplementation test.androidEspressoIntent
+    androidTestImplementation test.uiautomator
+
 }

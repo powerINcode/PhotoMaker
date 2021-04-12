@@ -4,6 +4,7 @@ import android.net.Uri
 import com.example.core.test.RxJavaTestRule
 import com.example.feature.make.photo.impl.ui.MakePhotoContract
 import com.example.feature.make.photo.impl.ui.MakePhotoReducer
+import com.example.ui.textview.PureText
 import com.example.ui.textview.ResourceText
 import com.nhaarman.mockitokotlin2.mock
 import io.mockk.every
@@ -54,6 +55,96 @@ class MakePhotoReducerTest {
         // do
         val testObserver = reducer.stateObservable.test()
         reducer.photoNotMade()
+
+        // assert
+        testObserver.assertNoErrors()
+            .assertValueCount(2)
+            .assertValueAt(1, expected)
+    }
+
+    @Test
+    fun `test photo name empty`() {
+        // prepare
+        val expected = MakePhotoContract.MakePhotoState.EMPTY.copy(
+            error = ResourceText(R.string.make_photo_empty)
+        )
+
+        // do
+        val testObserver = reducer.stateObservable.test()
+        reducer.photoNameEmpty()
+
+        // assert
+        testObserver.assertNoErrors()
+            .assertValueCount(2)
+            .assertValueAt(1, expected)
+    }
+
+    @Test
+    fun `test photo start making photo`() {
+        // prepare
+        val expected = MakePhotoContract.MakePhotoState.EMPTY.copy(
+            error = null
+        )
+
+        // do
+        val testObserver = reducer.stateObservable.test()
+        reducer.startMakingPhoto()
+
+        // assert
+        testObserver.assertNoErrors()
+            .assertValueCount(2)
+            .assertValueAt(1, expected)
+    }
+
+    @Test
+    fun `test photo start saving photo`() {
+        // prepare
+        val expected = MakePhotoContract.MakePhotoState.EMPTY.copy(
+            loading = true,
+            error = null
+        )
+
+        // do
+        val testObserver = reducer.stateObservable.test()
+        reducer.startSavePhoto()
+
+        // assert
+        testObserver.assertNoErrors()
+            .assertValueCount(2)
+            .assertValueAt(1, expected)
+    }
+
+    @Test
+    fun `test create photo file error`() {
+        // prepare
+        val error = "error"
+        val expected = MakePhotoContract.MakePhotoState.EMPTY.copy(
+            loading = false,
+            error = PureText(error)
+        )
+
+        // do
+        val testObserver = reducer.stateObservable.test()
+        reducer.createPhotoFileError(error)
+
+        // assert
+        testObserver.assertNoErrors()
+            .assertValueCount(2)
+            .assertValueAt(1, expected)
+    }
+
+    @Test
+    fun `test photo not saved`() {
+        // prepare
+        val error = "error"
+        val expected = MakePhotoContract.MakePhotoState.EMPTY.copy(
+            loading = false,
+            error = PureText(error)
+        )
+
+        // do
+        val testObserver = reducer.stateObservable.test()
+        reducer.createPhotoFileError(error)
 
         // assert
         testObserver.assertNoErrors()

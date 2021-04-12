@@ -6,7 +6,7 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 
 /**
- * Responsible for the photo data
+ * Repository describe photo collection of the app
  */
 interface PhotoRepository: FlowEntity {
 

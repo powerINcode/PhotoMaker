@@ -4,15 +4,40 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.*
 import io.reactivex.rxjava3.schedulers.Schedulers
 
+/**
+ * Convert [Observable] to the [Flowable] with [BackpressureStrategy.DROP] that allow to
+ * not interrupt already running task
+ * @param block [CompletableSource] with task
+ */
 fun <T> Observable<T>.flatMapDropCompletable(block: (T) -> CompletableSource): Completable = this.toFlowable(BackpressureStrategy.DROP)
     .flatMapCompletable(block, false, 1)
 
+/**
+ * Switch thread to [AndroidSchedulers.mainThread]
+ */
 fun <T> Observable<T>.toMainThread(): Observable<T> = this.observeOn(AndroidSchedulers.mainThread())
 
+/**
+ * Switch thread to [Schedulers.io]
+ */
 fun <T> Flowable<T>.onIo(): Flowable<T> = this.subscribeOn(Schedulers.io())
+
+/**
+ * Switch thread to [AndroidSchedulers.mainThread]
+ */
 fun <T> Flowable<T>.toMainThread(): Flowable<T> = this.observeOn(AndroidSchedulers.mainThread())
 
+/**
+ * Switch thread to [Schedulers.io]
+ */
 fun <T> Single<T>.onIo(): Single<T> = this.subscribeOn(Schedulers.io())
+
+/**
+ * Switch thread to [AndroidSchedulers.mainThread]
+ */
 fun <T> Single<T>.toMainThread(): Single<T> = this.observeOn(AndroidSchedulers.mainThread())
 
+/**
+ * Switch thread to [Schedulers.io]
+ */
 fun Completable.onIo(): Completable = this.subscribeOn(Schedulers.io())
