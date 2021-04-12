@@ -23,12 +23,12 @@ abstract class BaseViewModel<State : Any, Reducer : StateReducer<State>> constru
     val state: LiveData<State> get() = reducer.stateObservable.toLiveData()
 
     @VisibleForTesting
-    val _navigation: PublishSubject<NavigationCommand> = PublishSubject.create()
-    val navigation: LiveData<NavigationCommand> get() = _navigation.toLiveData()
+    val navigationSubject: PublishSubject<NavigationCommand> = PublishSubject.create()
+    val navigation: LiveData<NavigationCommand> get() = navigationSubject.toLiveData()
 
     protected val _state: State get() = reducer.state
 
-    protected val intentSubject = BehaviorSubject.create<Any>()
+    protected val intentSubject: BehaviorSubject<Any> = BehaviorSubject.create<Any>()
 
     private val inited: AtomicBoolean = AtomicBoolean(false)
 
@@ -45,7 +45,7 @@ abstract class BaseViewModel<State : Any, Reducer : StateReducer<State>> constru
     }
 
     fun navigate(command: NavigationCommand) {
-        _navigation.onNext(command)
+        navigationSubject.onNext(command)
     }
 
     override fun onCleared() {

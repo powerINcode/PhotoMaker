@@ -58,7 +58,7 @@ class MakePhotoViewModelTest {
     @Test
     fun `WHEN file created successfully THEN navigate to to make photo`() {
         // do
-        val testObserver = viewModel._navigation.test()
+        val testObserver = viewModel.navigationSubject.test()
         viewModel.init()
 
         // assert
@@ -107,7 +107,7 @@ class MakePhotoViewModelTest {
 
         // do
         viewModel.init()
-        val testObserver = viewModel._navigation.test()
+        val testObserver = viewModel.navigationSubject.test()
         viewModel.send(MakePhotoContract.MakePhotoIntent.PhotoMade)
         viewModel.send(MakePhotoContract.MakePhotoIntent.SavePhoto(name))
 
