@@ -1,7 +1,6 @@
 package com.example.feature.photo.gallery.impl.ui
 
 import android.os.Bundle
-import com.example.core.sreams.toMainThread
 import com.example.feature.browse.photo.api.BrowsePhotoFlowConfig
 import com.example.feature.photo.gallery.api.domain.ObservePhotosUseCase
 import com.example.feature.photo.gallery.impl.domain.CalculateGridParamsUseCase
@@ -20,7 +19,6 @@ class PhotoGalleryViewModel @Inject constructor(
 
     override fun doInit() {
         observePhotosUseCase()
-            .toMainThread()
             .subscribeTillClear {
                 reducer.setPhotos(it)
             }

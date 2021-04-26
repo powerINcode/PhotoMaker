@@ -27,7 +27,7 @@ abstract class BaseViewModel<State : Any, Reducer : StateReducer<State>> constru
     val navigationSubject: PublishSubject<NavigationCommand> = PublishSubject.create()
     val navigation: LiveData<NavigationCommand> get() = navigationSubject.toLiveData()
 
-    protected val _state: State get() = reducer.state
+    protected val _state: Single<State> get() = reducer.state
 
     protected val intentSubject: BehaviorSubject<Any> = BehaviorSubject.create<Any>()
 

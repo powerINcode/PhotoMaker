@@ -4,6 +4,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.view.WindowInsets
+import android.view.WindowInsetsController
 import com.bumptech.glide.Glide
 import com.example.feature.browse.photo.api.BrowsePhotoFlowConfig
 import com.example.feature.browse.photo.impl.databinding.ActivityBrowsePhotoBinding
@@ -63,7 +65,17 @@ class BrowsePhotoActivity : BaseActivity<BrowsePhotoActivityComponent, BrowsePho
 
     private fun hideSystemUI() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
+            supportActionBar?.hide()
+            window.insetsController?.let {
+                // Default behavior is that if navigation bar is hidden, the system will "steal" touches
+                // and show it again upon user's touch. We just want the user to be able to show the
+                // navigation bar by swipe, touches are handled by custom code -> change system bar behavior.
+                // Alternative to deprecated SYSTEM_UI_FLAG_IMMERSIVE.
+                it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                // Finally, hide the system bars, alternative to View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                // and SYSTEM_UI_FLAG_FULLSCREEN.
+                it.hide(WindowInsets.Type.systemBars())
+            }
         } else {
             @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
@@ -77,7 +89,10 @@ class BrowsePhotoActivity : BaseActivity<BrowsePhotoActivityComponent, BrowsePho
 
     private fun showSystemUI() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(true)
+            supportActionBar?.show()
+            window.setDecorFitsSystemWindows(false)
+            // finally, show the system bars
+            window.insetsController?.show(WindowInsets.Type.systemBars())
         } else {
             @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE

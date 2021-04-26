@@ -6,7 +6,9 @@ import com.example.ui.viewmodel.StateReducer
 import javax.inject.Inject
 
 class BrowsePhotoReducer @Inject constructor(): StateReducer<BrowsePhotoState>(BrowsePhotoState.EMPTY) {
-    fun setPhoto(photo: Photo) {
-        state.copy(photo = photo).commit()
+    fun setPhoto(photo: Photo)  {
+        commit { state ->
+            state.copy(photo = photo)
+        }
     }
 }

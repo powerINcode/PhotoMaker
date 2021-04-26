@@ -12,22 +12,26 @@ import javax.inject.Inject
 
 class PhotoGalleryReducer @Inject constructor() : StateReducer<PhotoGalleryState>(PhotoGalleryState.EMPTY) {
     fun setPhotos(photos: List<Photo>) {
-        state.copy(photos = photos.map { photo ->
-            PhotoGalleryAdapter.Model(
-                id = photo.id.toString(),
-                photoId = photo.id,
-                name = photo.name,
-                date = DATE_FORMATTER.print(LocalDate(photo.createdAt.millis)),
-                path = photo.path
-            )
-        }).commit()
+        commit { state ->
+            state.copy(photos = photos.map { photo ->
+                PhotoGalleryAdapter.Model(
+                    id = photo.id.toString(),
+                    photoId = photo.id,
+                    name = photo.name,
+                    date = DATE_FORMATTER.print(LocalDate(photo.createdAt.millis)),
+                    path = photo.path
+                )
+            })
+        }
     }
 
     fun containerSizeChange(spanCount: Int, itemSize: Int) {
-        state.copy(
-            spanCount = spanCount,
-            photoSize = itemSize
-        ).commit()
+        commit { state ->
+            state.copy(
+                spanCount = spanCount,
+                photoSize = itemSize
+            )
+        }
     }
 
     companion object {

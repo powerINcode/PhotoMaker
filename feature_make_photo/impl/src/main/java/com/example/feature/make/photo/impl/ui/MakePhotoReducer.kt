@@ -10,45 +10,59 @@ import javax.inject.Inject
 
 class MakePhotoReducer @Inject constructor(): StateReducer<MakePhotoState>(MakePhotoState.EMPTY) {
     fun photoMade(photoUri: Uri) {
-        state.copy(photoUri = photoUri).commit()
+        commit { state ->
+            state.copy(photoUri = photoUri)
+        }
     }
 
     fun photoNameEmpty() {
-        state.copy(
-            error = ResourceText(R.string.make_photo_empty)
-        ).commit()
+        commit { state ->
+            state.copy(
+                error = ResourceText(R.string.make_photo_empty)
+            )
+        }
     }
 
     fun photoNotMade() {
-        state.copy(
-            error = ResourceText(R.string.make_photo_not_made)
-        ).commit()
+        commit { state ->
+            state.copy(
+                error = ResourceText(R.string.make_photo_not_made)
+            )
+        }
     }
 
     fun startMakingPhoto() {
-        state.copy(
-            error = null
-        ).commit()
+        commit { state ->
+            state.copy(
+                error = null
+            )
+        }
     }
 
     fun startSavePhoto() {
-        state.copy(
-            loading = true,
-            error = null
-        ).commit()
+        commit { state ->
+            state.copy(
+                loading = true,
+                error = null
+            )
+        }
     }
 
     fun createPhotoFileError(error: String?) {
-        state.copy(
-            loading = false,
-            error = error?.let { PureText(it) }
-        ).commit()
+        commit { state ->
+            state.copy(
+                loading = false,
+                error = error?.let { PureText(it) }
+            )
+        }
     }
 
     fun photoNotSaved(error: String?) {
-        state.copy(
-            loading = false,
-            error = error?.let { PureText(it) }
-        ).commit()
+        commit { state ->
+            state.copy(
+                loading = false,
+                error = error?.let { PureText(it) }
+            )
+        }
     }
 }

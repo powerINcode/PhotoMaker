@@ -36,6 +36,7 @@ android {
 dependencies {
 
     implementation core.flow
+    implementation core.streams
 
     implementation ui.appcompat
     implementation ui.recyclerView
