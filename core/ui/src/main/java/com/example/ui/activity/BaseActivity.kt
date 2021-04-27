@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.example.core.flow.FlowEntity
 import com.example.core.flow.FlowEntityProvider
+import com.example.core.sreams.toMainThread
 import com.example.ui.navigation.Navigator
 import com.example.ui.viewmodel.BaseViewModel
 import io.reactivex.rxjava3.core.Observable
@@ -42,13 +43,17 @@ abstract class BaseActivity<Component : Any, State : Any, VM : BaseViewModel<Sta
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
-        viewModel.navigation.observe(this, {
-            navigator.navigate(it)
-        })
+        viewModel.navigation
+            .toMainThread()
+            .subscribeTillAttach {
+                navigator.navigate(it)
+            }
 
-        viewModel.state.observe(this) {
-            render(it)
-        }
+        viewModel.state
+            .toMainThread()
+            .subscribeTillAttach { stateChange ->
+                render(stateChange.state, stateChange.payload)
+            }
 
         viewModel.init()
     }
@@ -58,7 +63,7 @@ abstract class BaseActivity<Component : Any, State : Any, VM : BaseViewModel<Sta
         super.onDestroy()
     }
 
-    protected abstract fun render(state: State)
+    protected abstract fun render(state: State, payload: Any?)
 
     protected inline fun <reified T : ViewBinding> viewBindings(noinline initializer: (LayoutInflater) -> T): ReadOnlyProperty<AppCompatActivity, T> =
         ViewBindingProperty(initializer)
@@ -72,11 +77,11 @@ abstract class BaseActivity<Component : Any, State : Any, VM : BaseViewModel<Sta
         }
     }
 
-    protected inline fun <reified T: FlowEntity> AppCompatActivity.getFlowEntity(): T {
+    protected inline fun <reified T : FlowEntity> AppCompatActivity.getFlowEntity(): T {
         return (application as FlowEntityProvider).getFlow(T::class.java)
     }
 
-    fun <T> Observable<T>.subscribeTillDestroy(block: (T) -> Unit) {
+    protected fun <T> Observable<T>.subscribeTillAttach(block: (T) -> Unit) {
         compositeDisposable.add(this.subscribe(block, {
             Log.e("BaseActivity", "Error happen in the subscribeTillDestroy: ${it.message}")
         }, {}))

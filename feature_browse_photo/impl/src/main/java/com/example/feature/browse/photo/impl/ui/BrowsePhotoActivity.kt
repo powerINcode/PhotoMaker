@@ -50,7 +50,7 @@ class BrowsePhotoActivity : BaseActivity<BrowsePhotoActivityComponent, BrowsePho
         return true
     }
 
-    override fun render(state: BrowsePhotoState) {
+    override fun render(state: BrowsePhotoState, payload: Any?) {
         state.photo?.let { photo ->
             Glide.with(this)
                 .load(photo.path)

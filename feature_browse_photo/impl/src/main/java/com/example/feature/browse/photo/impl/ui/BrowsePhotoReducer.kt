@@ -2,7 +2,7 @@ package com.example.feature.browse.photo.impl.ui
 
 import com.example.feature.browse.photo.impl.ui.BrowsePhotoContract.BrowsePhotoState
 import com.example.repositories.api.photo.entities.Photo
-import com.example.ui.viewmodel.StateReducer
+import com.example.ui.viewmodel.statereducer.StateReducer
 import javax.inject.Inject
 
 class BrowsePhotoReducer @Inject constructor(): StateReducer<BrowsePhotoState>(BrowsePhotoState.EMPTY) {

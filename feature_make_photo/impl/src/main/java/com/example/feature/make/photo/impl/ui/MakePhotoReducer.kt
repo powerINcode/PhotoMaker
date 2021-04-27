@@ -5,7 +5,7 @@ import com.example.feature.make.photo.impl.R
 import com.example.feature.make.photo.impl.ui.MakePhotoContract.MakePhotoState
 import com.example.ui.textview.PureText
 import com.example.ui.textview.ResourceText
-import com.example.ui.viewmodel.StateReducer
+import com.example.ui.viewmodel.statereducer.StateReducer
 import javax.inject.Inject
 
 class MakePhotoReducer @Inject constructor(): StateReducer<MakePhotoState>(MakePhotoState.EMPTY) {

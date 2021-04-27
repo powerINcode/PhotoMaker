@@ -55,15 +55,24 @@ class PhotoGalleryActivity : BaseActivity<PhotoGalleryActivityComponent, PhotoGa
         }
     }
 
-    override fun render(state: PhotoGalleryState) {
+    override fun render(state: PhotoGalleryState, payload: Any?) {
+        val statePayload = state.get(payload)
+
         with(viewBinding) {
-            if (galleryAdapter.itemSize != state.photoSize) {
+            if (statePayload.spanCountChanged) {
                 photoGalleryRecyclerView.layoutManager = GridLayoutManager(this@PhotoGalleryActivity, state.spanCount)
+            }
+
+            if (statePayload.photoSizeChanged) {
                 galleryAdapter.itemSizeChange(state.photoSize)
+            }
+
+            if (statePayload.photosChanged) {
+                galleryAdapter.swap(state.photos)
             }
         }
 
-        galleryAdapter.swap(state.photos)
+
     }
 
 }

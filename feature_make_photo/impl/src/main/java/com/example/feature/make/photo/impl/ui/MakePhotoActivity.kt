@@ -50,7 +50,7 @@ class MakePhotoActivity : BaseActivity<MakePhotoActivityComponent, MakePhotoStat
         }
     }
 
-    override fun render(state: MakePhotoState) {
+    override fun render(state: MakePhotoState, payload: Any?) {
         with(viewBinding) {
             state.photoUri?.let { glide.load(it).into(photoImageView) }
             progressBar.isVisible = state.loading
