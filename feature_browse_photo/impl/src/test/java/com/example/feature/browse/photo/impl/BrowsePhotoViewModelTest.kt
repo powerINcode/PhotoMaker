@@ -1,6 +1,7 @@
 package com.example.feature.browse.photo.impl
 
 import com.example.core.test.RxJavaTestRule
+import com.example.feature.browse.photo.api.BrowsePhotoFlowConfig
 import com.example.feature.browse.photo.api.domain.GetPhotoByIdUseCase
 import com.example.feature.browse.photo.impl.ui.BrowsePhotoReducer
 import com.example.feature.browse.photo.impl.ui.BrowsePhotoViewModel
@@ -31,7 +32,7 @@ class BrowsePhotoViewModelTest {
     @Before
     fun setUp() {
         viewModel = BrowsePhotoViewModel(
-            photoId = photoId,
+            configuration = BrowsePhotoFlowConfig(photoId),
             getPhotoByIdUseCase = getPhotoByIdUseCase,
             reducer = reducer
         )

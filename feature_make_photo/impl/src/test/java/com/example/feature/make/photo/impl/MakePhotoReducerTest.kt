@@ -38,13 +38,13 @@ class MakePhotoReducerTest {
         val expected = MakePhotoContract.MakePhotoState.EMPTY.copy(photoUri = uri)
 
         // do
-        val testObserver = reducer.stateObservable.test()
+        val testObserver = reducer.observeStateChange().test()
         reducer.photoMade(uri)
 
         // assert
         testObserver.assertNoErrors()
             .assertValueCount(2)
-            .assertValueAt(1, expected)
+            .assertValueAt(1) { stateChange -> stateChange.state == expected }
     }
 
     @Test
@@ -53,13 +53,13 @@ class MakePhotoReducerTest {
         val expected = MakePhotoContract.MakePhotoState.EMPTY.copy(error = ResourceText(R.string.make_photo_not_made))
 
         // do
-        val testObserver = reducer.stateObservable.test()
+        val testObserver = reducer.observeStateChange().test()
         reducer.photoNotMade()
 
         // assert
         testObserver.assertNoErrors()
             .assertValueCount(2)
-            .assertValueAt(1, expected)
+            .assertValueAt(1) { stateChange -> stateChange.state == expected }
     }
 
     @Test
@@ -70,13 +70,13 @@ class MakePhotoReducerTest {
         )
 
         // do
-        val testObserver = reducer.stateObservable.test()
+        val testObserver = reducer.observeStateChange().test()
         reducer.photoNameEmpty()
 
         // assert
         testObserver.assertNoErrors()
             .assertValueCount(2)
-            .assertValueAt(1, expected)
+            .assertValueAt(1) { stateChange -> stateChange.state == expected }
     }
 
     @Test
@@ -87,13 +87,13 @@ class MakePhotoReducerTest {
         )
 
         // do
-        val testObserver = reducer.stateObservable.test()
+        val testObserver = reducer.observeStateChange().test()
         reducer.startMakingPhoto()
 
         // assert
         testObserver.assertNoErrors()
-            .assertValueCount(2)
-            .assertValueAt(1, expected)
+            .assertValueCount(1)
+            .assertValueAt(0) { stateChange -> stateChange.state == expected }
     }
 
     @Test
@@ -105,13 +105,13 @@ class MakePhotoReducerTest {
         )
 
         // do
-        val testObserver = reducer.stateObservable.test()
+        val testObserver = reducer.observeStateChange().test()
         reducer.startSavePhoto()
 
         // assert
         testObserver.assertNoErrors()
             .assertValueCount(2)
-            .assertValueAt(1, expected)
+            .assertValueAt(1) { stateChange -> stateChange.state == expected }
     }
 
     @Test
@@ -124,13 +124,13 @@ class MakePhotoReducerTest {
         )
 
         // do
-        val testObserver = reducer.stateObservable.test()
+        val testObserver = reducer.observeStateChange().test()
         reducer.createPhotoFileError(error)
 
         // assert
         testObserver.assertNoErrors()
             .assertValueCount(2)
-            .assertValueAt(1, expected)
+            .assertValueAt(1) { stateChange -> stateChange.state == expected }
     }
 
     @Test
@@ -143,12 +143,12 @@ class MakePhotoReducerTest {
         )
 
         // do
-        val testObserver = reducer.stateObservable.test()
+        val testObserver = reducer.observeStateChange().test()
         reducer.createPhotoFileError(error)
 
         // assert
         testObserver.assertNoErrors()
             .assertValueCount(2)
-            .assertValueAt(1, expected)
+            .assertValueAt(1) { stateChange -> stateChange.state == expected }
     }
 }

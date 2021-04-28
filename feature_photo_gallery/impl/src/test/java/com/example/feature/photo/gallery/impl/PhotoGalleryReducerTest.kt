@@ -43,14 +43,14 @@ class PhotoGalleryReducerTest {
         )
 
         // do
-        val testObserver = reducer.stateObservable.test()
+        val testObserver = reducer.observeStateChange().test()
         reducer.setPhotos(photos)
 
         // assert
         testObserver
             .assertNoErrors()
             .assertValueCount(2)
-            .assertValueAt(1, PhotoGalleryState.EMPTY.copy(photos = expected))
+            .assertValueAt(1) { stateChange -> stateChange.state == PhotoGalleryState.EMPTY.copy(photos = expected) }
     }
 
     @Test
@@ -65,12 +65,12 @@ class PhotoGalleryReducerTest {
         )
 
         // do
-        val testObserver = reducer.stateObservable.test()
+        val testObserver = reducer.observeStateChange().test()
         reducer.containerSizeChange(spanCount, itemSize)
 
         // assert
         testObserver.assertNoErrors()
             .assertValueCount(2)
-            .assertValueAt(1, expected)
+            .assertValueAt(1) { stateChange -> stateChange.state == expected }
     }
 }

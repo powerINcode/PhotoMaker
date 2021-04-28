@@ -33,12 +33,12 @@ class BrowsePhotoReducerTest {
         )
 
         // do
-        val testObserver = reducer.stateObservable.test()
+        val testObserver = reducer.observeStateChange().test()
         reducer.setPhoto(photo)
 
         // assert
         testObserver.assertNoErrors()
             .assertValueCount(2)
-            .assertValueAt(1, expected)
+            .assertValueAt(1) { stateChange -> stateChange.state == expected }
     }
 }
