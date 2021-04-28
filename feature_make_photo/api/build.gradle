@@ -1,1 +1,1 @@
-apply from: "../../feature_module_api.gradle"
+apply plugin: 'com.android.library'

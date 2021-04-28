@@ -1,4 +1,4 @@
-apply from: "../../feature_module_impl.gradle"
+apply plugin: 'com.android.library'
 
 dependencies {
     implementation feature.makePhoto.api

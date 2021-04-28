@@ -13,8 +13,8 @@ import javax.inject.Provider
 @Module
 interface BaseActivityModule {
 
-    @ActivityScope
     @Binds
+    @ActivityScope
     fun provideNavigator(navigator: NavigatorImpl): Navigator
 
     companion object {

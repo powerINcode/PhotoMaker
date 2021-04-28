@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.7">
+    <bytecodeTargetLevel target="1.8">
       <module name="PhotoMaker.app" target="11" />
       <module name="PhotoMaker.core.streams" target="11" />
       <module name="PhotoMaker.core.test" target="11" />
       <module name="PhotoMaker.core.ui" target="11" />
+      <module name="PhotoMaker.feature_browse_photo.api" target="11" />
       <module name="PhotoMaker.feature_browse_photo.impl" target="11" />
+      <module name="PhotoMaker.feature_make_photo.api" target="11" />
       <module name="PhotoMaker.feature_make_photo.impl" target="11" />
+      <module name="PhotoMaker.feature_photo_gallery.api" target="11" />
       <module name="PhotoMaker.feature_photo_gallery.impl" target="11" />
+      <module name="PhotoMaker.repositories.api" target="11" />
       <module name="PhotoMaker.repositories.impl" target="11" />
     </bytecodeTargetLevel>
   </component>

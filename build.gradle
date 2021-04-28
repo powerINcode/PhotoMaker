@@ -23,6 +23,40 @@ allprojects {
     }
 }
 
+static boolean isJavaPlugin(Plugin plugin) {
+    plugin.getClass().canonicalName in ["org.gradle.api.plugins.JavaPlugin", "org.gradle.api.plugins.JavaLibraryPlugin"]
+}
+
+static boolean isAndroidPlugin(Plugin plugin) {
+    plugin.getClass().canonicalName in ["com.android.build.gradle.LibraryPlugin", "com.android.build.gradle.AppPlugin"]
+}
+
+subprojects { project ->
+
+    project.plugins.whenPluginAdded { plugin ->
+
+        if (isJavaPlugin(plugin)) {
+            project.apply from: "$rootProject.projectDir/java_library.gradle"
+        }
+
+        if (isAndroidPlugin(plugin)) {
+            project.apply from: "$rootProject.projectDir/android_library.gradle"
+        }
+
+        if (project.path.endsWith("api")) {
+            if (isAndroidPlugin(plugin)) {
+                project.apply from: "$rootProject.projectDir/feature_module_api.gradle"
+            }
+        }
+
+        if (project.path.endsWith("impl")) {
+            if (isAndroidPlugin(plugin)) {
+                project.apply from: "$rootProject.projectDir/feature_module_impl.gradle"
+            }
+        }
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
