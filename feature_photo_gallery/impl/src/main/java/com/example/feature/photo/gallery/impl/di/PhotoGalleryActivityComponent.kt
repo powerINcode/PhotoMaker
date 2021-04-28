@@ -19,7 +19,7 @@ import dagger.Component
         PhotoGalleryApi::class
     ]
 )
-interface PhotoGalleryActivityComponent : ActivityComponent<PhotoGalleryActivity> {
+internal interface PhotoGalleryActivityComponent : ActivityComponent<PhotoGalleryActivity> {
     @Component.Factory
     interface Factory {
         fun create(

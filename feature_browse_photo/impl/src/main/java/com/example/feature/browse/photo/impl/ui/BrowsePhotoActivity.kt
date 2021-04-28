@@ -7,14 +7,13 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import com.bumptech.glide.Glide
-import com.example.feature.browse.photo.api.BrowsePhotoFlowConfig
 import com.example.feature.browse.photo.impl.databinding.ActivityBrowsePhotoBinding
 import com.example.feature.browse.photo.impl.di.BrowsePhotoActivityComponent
 import com.example.feature.browse.photo.impl.di.DaggerBrowsePhotoActivityComponent
 import com.example.feature.browse.photo.impl.ui.BrowsePhotoContract.BrowsePhotoState
 import com.example.ui.activity.BaseActivity
 
-class BrowsePhotoActivity : BaseActivity<BrowsePhotoActivityComponent, BrowsePhotoState, BrowsePhotoViewModel>() {
+internal class BrowsePhotoActivity : BaseActivity<BrowsePhotoActivityComponent, BrowsePhotoState, BrowsePhotoViewModel>() {
 
     override val viewBinding: ActivityBrowsePhotoBinding by viewBindings(ActivityBrowsePhotoBinding::inflate)
 
@@ -24,8 +23,7 @@ class BrowsePhotoActivity : BaseActivity<BrowsePhotoActivityComponent, BrowsePho
         return DaggerBrowsePhotoActivityComponent.factory().create(
             browsePhotoApi = getFlowEntity(),
             activity = this,
-            photoId = intent.getLongExtra(BrowsePhotoFlowConfig.EXTRA_KEY_PHOTO_ID, -1).takeIf { it >= 0 }
-                ?: throw IllegalStateException("Missing photo id")
+            configuration = requireConfiguration()
         )
     }
 

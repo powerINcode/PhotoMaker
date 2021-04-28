@@ -12,7 +12,7 @@ import com.example.feature.make.photo.impl.ui.MakePhotoContract.MakePhotoState
 import com.example.ui.activity.BaseActivity
 import com.example.ui.textview.setText
 
-class MakePhotoActivity : BaseActivity<MakePhotoActivityComponent, MakePhotoState, MakePhotoViewModel>() {
+internal class MakePhotoActivity : BaseActivity<MakePhotoActivityComponent, MakePhotoState, MakePhotoViewModel>() {
 
     override val viewBinding: ActivityMakePhotoBinding by viewBindings(ActivityMakePhotoBinding::inflate)
 

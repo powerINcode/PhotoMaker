@@ -19,7 +19,7 @@ import dagger.Component
         MakePhotoApi::class
     ]
 )
-interface MakePhotoActivityComponent: ActivityComponent<MakePhotoActivity> {
+internal interface MakePhotoActivityComponent: ActivityComponent<MakePhotoActivity> {
     @Component.Factory
     interface Factory {
         fun create(

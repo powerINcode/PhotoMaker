@@ -2,7 +2,7 @@ package com.example.feature.browse.photo.impl.ui
 
 import com.example.repositories.api.photo.entities.Photo
 
-interface BrowsePhotoContract {
+internal interface BrowsePhotoContract {
     data class BrowsePhotoState(
         val photo: Photo? = null
     ) {

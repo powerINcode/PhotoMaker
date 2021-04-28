@@ -4,7 +4,7 @@ import com.example.feature.photo.gallery.impl.ui.adapter.PhotoGalleryAdapter
 import com.example.ui.textview.TextDelegate
 import com.example.ui.viewmodel.statereducer.StatePayload
 
-interface PhotoGalleryContract {
+internal interface PhotoGalleryContract {
     data class PhotoGalleryState(
         val photos: List<PhotoGalleryAdapter.Model>,
         val spanCount: Int,

@@ -8,7 +8,7 @@ import com.example.ui.textview.ResourceText
 import com.example.ui.viewmodel.statereducer.StateReducer
 import javax.inject.Inject
 
-class MakePhotoReducer @Inject constructor(): StateReducer<MakePhotoState>(MakePhotoState.EMPTY) {
+internal class MakePhotoReducer @Inject constructor(): StateReducer<MakePhotoState>(MakePhotoState.EMPTY) {
     fun photoMade(photoUri: Uri) {
         commit { state ->
             state.copy(photoUri = photoUri)

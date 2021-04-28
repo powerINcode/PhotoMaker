@@ -8,7 +8,7 @@ import io.reactivex.rxjava3.core.Single
 import java.io.File
 import javax.inject.Inject
 
-class GetFileUriUseCase @Inject constructor(
+internal class GetFileUriUseCase @Inject constructor(
     private val application: Application
 ) : SingleUseCase<File, Uri> {
 

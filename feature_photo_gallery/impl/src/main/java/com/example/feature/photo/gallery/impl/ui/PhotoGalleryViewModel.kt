@@ -1,6 +1,5 @@
 package com.example.feature.photo.gallery.impl.ui
 
-import android.os.Bundle
 import com.example.feature.browse.photo.api.BrowsePhotoFlowConfig
 import com.example.feature.photo.gallery.api.domain.ObservePhotosUseCase
 import com.example.feature.photo.gallery.impl.domain.CalculateGridParamsUseCase
@@ -11,7 +10,7 @@ import com.example.ui.navigation.FeatureCommand
 import com.example.ui.viewmodel.BaseViewModel
 import javax.inject.Inject
 
-class PhotoGalleryViewModel @Inject constructor(
+internal class PhotoGalleryViewModel @Inject constructor(
     private val calculatePhotoSizeUseCase: CalculateGridParamsUseCase,
     private val observePhotosUseCase: ObservePhotosUseCase,
     reducer: PhotoGalleryReducer
@@ -41,9 +40,7 @@ class PhotoGalleryViewModel @Inject constructor(
 
         intentOf<PhotoGalleryIntent.PhotoClick>()
             .subscribeTillClear { intent ->
-                navigate(FeatureCommand(BrowsePhotoFlowConfig, extra = Bundle().apply {
-                    putLong(BrowsePhotoFlowConfig.EXTRA_KEY_PHOTO_ID, intent.photoId)
-                }))
+                navigate(FeatureCommand(BrowsePhotoFlowConfig(intent.photoId)))
             }
     }
 }

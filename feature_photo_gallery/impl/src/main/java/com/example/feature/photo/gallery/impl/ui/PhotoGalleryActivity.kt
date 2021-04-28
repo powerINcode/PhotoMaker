@@ -11,7 +11,7 @@ import com.example.feature.photo.gallery.impl.ui.PhotoGalleryContract.*
 import com.example.feature.photo.gallery.impl.ui.adapter.PhotoGalleryAdapter
 import com.example.ui.activity.BaseActivity
 
-class PhotoGalleryActivity : BaseActivity<PhotoGalleryActivityComponent, PhotoGalleryState, PhotoGalleryViewModel>() {
+internal class PhotoGalleryActivity : BaseActivity<PhotoGalleryActivityComponent, PhotoGalleryState, PhotoGalleryViewModel>() {
 
     override val viewBinding: ActivityPhotoGalleryBinding by viewBindings(ActivityPhotoGalleryBinding::inflate)
 

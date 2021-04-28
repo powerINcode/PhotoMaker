@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.annotation.VisibleForTesting
 import com.example.ui.textview.TextDelegate
 
-interface MakePhotoContract {
+internal interface MakePhotoContract {
     data class MakePhotoState(
         val photoUri: Uri? = null,
         val loading: Boolean,

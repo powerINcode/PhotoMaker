@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class CreateFileUseCase @Inject constructor(
+internal class CreateFileUseCase @Inject constructor(
     private val application: Application
 ) : SimpleSingleUseCase<File> {
 

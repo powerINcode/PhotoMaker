@@ -15,7 +15,7 @@ import com.example.ui.viewmodel.BaseViewModel
 import io.reactivex.rxjava3.core.Completable
 import javax.inject.Inject
 
-class MakePhotoViewModel @Inject constructor(
+internal class MakePhotoViewModel @Inject constructor(
     private val createFileUseCase: CreateFileUseCase,
     private val getFileUriUseCase: GetFileUriUseCase,
     private val savePhotoPathUseCase: SavePhotoPathUseCase,

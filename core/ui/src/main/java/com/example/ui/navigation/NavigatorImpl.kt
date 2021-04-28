@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
+import com.example.ui.activity.ScreenConfiguration
 import javax.inject.Inject
 
 class NavigatorImpl @Inject constructor(
@@ -16,8 +17,8 @@ class NavigatorImpl @Inject constructor(
             is Finish -> activity.finish()
             is ActivityCommand<*> -> {
                 val intent = Intent(activity, command.destination)
-                if (command.extra != null) {
-                    intent.putExtras(command.extra)
+                if (command.configuration != null) {
+                    intent.putExtra(ScreenConfiguration.CONFIGURATION_PARCELABLE, command.configuration)
                 }
                 activity.startActivity(intent)
             }
@@ -31,7 +32,7 @@ class NavigatorImpl @Inject constructor(
             }
             is FeatureCommand<*> -> {
                 val requestedActivityClass = (activity.application as NavigationProvider).getNavigation(command.config::class.java)
-                navigate(ActivityCommand(requestedActivityClass, extra = command.extra))
+                navigate(ActivityCommand(requestedActivityClass, configuration = command.config))
             }
         }
     }

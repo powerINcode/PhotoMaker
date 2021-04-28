@@ -1,7 +1,7 @@
 package com.example.feature.browse.photo.api
 
 import com.example.core.flow.FlowConfig
+import kotlinx.parcelize.Parcelize
 
-object BrowsePhotoFlowConfig: FlowConfig {
-    const val EXTRA_KEY_PHOTO_ID = "EXTRA_KEY_PHOTO_ID"
-}
+@Parcelize
+data class BrowsePhotoFlowConfig(val photoId: Long): FlowConfig

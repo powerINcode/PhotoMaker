@@ -1,6 +1,7 @@
 package com.example.ui.activity
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
@@ -80,6 +81,10 @@ abstract class BaseActivity<Component : Any, State : Any, VM : BaseViewModel<Sta
     protected inline fun <reified T : FlowEntity> AppCompatActivity.getFlowEntity(): T {
         return (application as FlowEntityProvider).getFlow(T::class.java)
     }
+
+    protected fun <T: Parcelable> getConfiguration(): T? = intent.getParcelableExtra(ScreenConfiguration.CONFIGURATION_PARCELABLE)
+
+    protected fun <T: Parcelable> requireConfiguration(): T = requireNotNull(getConfiguration())
 
     protected fun <T> Observable<T>.subscribeTillAttach(block: (T) -> Unit) {
         compositeDisposable.add(this.subscribe(block, {

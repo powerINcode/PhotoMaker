@@ -7,7 +7,7 @@ import com.example.feature.photo.gallery.impl.domain.CalculateGridParamsUseCase.
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
-class CalculateGridParamsUseCase @Inject constructor(): SingleUseCase<Params, Result> {
+internal class CalculateGridParamsUseCase @Inject constructor(): SingleUseCase<Params, Result> {
 
     override fun invoke(params: Params): Single<Result> {
         return Single.fromCallable {

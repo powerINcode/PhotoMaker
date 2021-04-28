@@ -13,7 +13,7 @@ import com.example.feature.photo.gallery.impl.ui.adapter.PhotoGalleryAdapter.Mod
 import com.example.feature.photo.gallery.impl.ui.adapter.PhotoGalleryAdapter.ViewHolder
 import com.example.ui.recyclerview.BaseRecyclerView
 
-class PhotoGalleryAdapter: BaseRecyclerView<Model, ViewHolder>() {
+internal class PhotoGalleryAdapter: BaseRecyclerView<Model, ViewHolder>() {
 
     var itemSize: Int = 0
 

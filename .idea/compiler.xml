@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.8">
       <module name="PhotoMaker.app" target="11" />
+      <module name="PhotoMaker.core.flow" target="11" />
       <module name="PhotoMaker.core.streams" target="11" />
       <module name="PhotoMaker.core.test" target="11" />
       <module name="PhotoMaker.core.ui" target="11" />

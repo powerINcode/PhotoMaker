@@ -10,7 +10,7 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import javax.inject.Inject
 
-class PhotoGalleryReducer @Inject constructor() : StateReducer<PhotoGalleryState>(PhotoGalleryState.EMPTY) {
+internal class PhotoGalleryReducer @Inject constructor() : StateReducer<PhotoGalleryState>(PhotoGalleryState.EMPTY) {
     fun setPhotos(photos: List<Photo>) {
         commit { state ->
             state.copy(photos = photos.map { photo ->
