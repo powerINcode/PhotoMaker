@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.feature.browse.photo.impl.databinding.ActivityBrowsePhotoBinding
 import com.example.feature.browse.photo.impl.di.BrowsePhotoActivityComponent
 import com.example.feature.browse.photo.impl.di.DaggerBrowsePhotoActivityComponent
+import com.example.feature.browse.photo.impl.ui.BrowsePhotoContract.BrowsePhotoIntent
 import com.example.feature.browse.photo.impl.ui.BrowsePhotoContract.BrowsePhotoState
 import com.example.ui.activity.BaseActivity
 
@@ -19,7 +20,7 @@ internal class BrowsePhotoActivity : BaseActivity<BrowsePhotoActivityComponent, 
 
     override fun getViewModelClass(): Class<BrowsePhotoViewModel> = BrowsePhotoViewModel::class.java
 
-    public override fun createComponent(): BrowsePhotoActivityComponent {
+    override fun createComponent(): BrowsePhotoActivityComponent {
         return DaggerBrowsePhotoActivityComponent.factory().create(
             browsePhotoApi = getFlowEntity(),
             activity = this,
@@ -40,6 +41,10 @@ internal class BrowsePhotoActivity : BaseActivity<BrowsePhotoActivityComponent, 
         viewBinding.fullScreenImageView.setOnClickListener {
             showSystemUI()
             Handler(mainLooper).postDelayed(::hideSystemUI, 3000)
+        }
+
+        viewBinding.showDummyButton.setOnClickListener {
+            viewModel.send(BrowsePhotoIntent.ShowDummyFragment)
         }
     }
 

@@ -6,6 +6,7 @@ import com.example.core.flow.di.scope.ActivityScope
 import com.example.feature.browse.photo.api.BrowsePhotoApi
 import com.example.feature.browse.photo.api.BrowsePhotoFlowConfig
 import com.example.feature.browse.photo.impl.ui.BrowsePhotoActivity
+import com.example.feature.browse.photo.impl.ui.dummy.di.DummyFragmentComponent
 import com.example.ui.activity.di.BaseActivityModule
 import dagger.BindsInstance
 import dagger.Component
@@ -21,6 +22,9 @@ import dagger.Component
     ]
 )
 internal interface BrowsePhotoActivityComponent : ActivityComponent<BrowsePhotoActivity> {
+
+    fun getDummyFragmentFactory(): DummyFragmentComponent.Factory
+
     @Component.Factory
     interface Factory {
         fun create(

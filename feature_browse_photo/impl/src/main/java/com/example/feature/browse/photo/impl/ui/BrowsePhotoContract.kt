@@ -12,4 +12,8 @@ internal interface BrowsePhotoContract {
             )
         }
     }
+
+    sealed class BrowsePhotoIntent {
+        object ShowDummyFragment: BrowsePhotoIntent()
+    }
 }

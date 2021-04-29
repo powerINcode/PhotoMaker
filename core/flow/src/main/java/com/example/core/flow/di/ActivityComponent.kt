@@ -1,5 +1,7 @@
 package com.example.core.flow.di
 
-interface ActivityComponent<T> {
+import androidx.appcompat.app.AppCompatActivity
+
+interface ActivityComponent<T: AppCompatActivity> {
     fun inject(target: T)
 }
