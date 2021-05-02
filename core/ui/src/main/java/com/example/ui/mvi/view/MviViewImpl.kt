@@ -1,69 +1,57 @@
 package com.example.ui.mvi.view
 
 import android.util.Log
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.ViewModel
 import com.example.core.sreams.toMainThread
-import com.example.ui.navigation.Navigator
-import com.example.ui.viewmodel.BaseViewModel
+import com.example.ui.mvi.presenter.Presenter
 import com.example.ui.viewmodel.statereducer.StateReducer
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.PublishSubject
 
-class MviViewImpl<Component : Any, State : Any, VM : BaseViewModel<State, *>>: MviView<Component, State, VM> {
+class MviViewImpl<Component : Any, State : Any, P : Presenter> : MviView<Component, State, P> {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val renderSubject: PublishSubject<StateReducer.StateChange<State>> = PublishSubject.create()
-    private lateinit var viewModelStoreOwner: ViewModelStoreOwner
-
-    private lateinit var viewModelClass: Class<VM>
-
-    lateinit var navigator: Navigator
-
-    lateinit var modelFactory: ViewModelProvider.Factory
 
     override lateinit var component: Component
 
-    override val viewModel: VM by lazy { ViewModelProvider(viewModelStoreOwner, modelFactory).get(viewModelClass) }
+    private var presenter: Presenter? = null
 
     override fun observeStateChange(): Observable<StateReducer.StateChange<State>> = renderSubject
+
+    override fun initialize(viewModel: ViewModel, presenter: Presenter) {
+        this.presenter = presenter
+
+        presenter.onCreate(viewModel)
+
+        presenter.observeStateChange<State>()
+            .toMainThread()
+            .subscribeTillDestroy { stateChange ->
+                renderSubject.onNext(stateChange)
+            }
+
+        presenter.onCreated()
+    }
 
     override fun onCreateMviView(buildComponentBlock: () -> Component, initializeComponentBlock: (Component) -> Unit) {
         component = buildComponentBlock()
         initializeComponentBlock(component)
     }
 
-    override fun initialize(
-        viewModelClass: Class<VM>,
-        viewModelStoreOwner: ViewModelStoreOwner,
-        navigator: Navigator,
-        modelFactory: ViewModelProvider.Factory
-    ) {
-        this.viewModelClass = viewModelClass
-        this.viewModelStoreOwner = viewModelStoreOwner
-        this.navigator = navigator
-        this.modelFactory = modelFactory
+    override fun onAttachMviView() {
+        presenter?.onAttach()
+    }
 
-        viewModel.navigation
-            .toMainThread()
-            .subscribeTillAttach {
-                navigator.navigate(it)
-            }
-
-        viewModel.state
-            .toMainThread()
-            .subscribeTillAttach { stateChange ->
-                renderSubject.onNext(stateChange)
-            }
-
-        viewModel.init()
+    override fun onDetachMviView() {
+        presenter?.onDetach()
     }
 
     override fun onDestroyMviView() {
         compositeDisposable.clear()
+        presenter = null
     }
 
-    override fun <T> Observable<T>.subscribeTillAttach(block: (T) -> Unit) {
+    override fun <T> Observable<T>.subscribeTillDestroy(block: (T) -> Unit) {
         compositeDisposable.add(this.subscribe(block, {
             Log.e("BaseActivity", "Error happen in the subscribeTillDestroy: ${it.message}")
         }, {}))

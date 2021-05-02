@@ -3,6 +3,7 @@ package com.example.feature.make.photo.impl.ui
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
 import com.example.feature.make.photo.impl.databinding.ActivityMakePhotoBinding
 import com.example.feature.make.photo.impl.di.DaggerMakePhotoActivityComponent
@@ -12,17 +13,17 @@ import com.example.feature.make.photo.impl.ui.MakePhotoContract.MakePhotoState
 import com.example.ui.activity.BaseActivity
 import com.example.ui.textview.setText
 
-internal class MakePhotoActivity : BaseActivity<MakePhotoActivityComponent, MakePhotoState, MakePhotoViewModel>() {
+internal class MakePhotoActivity : BaseActivity<MakePhotoActivityComponent, MakePhotoState, MakePhotoPresenter>() {
 
     override val viewBinding: ActivityMakePhotoBinding by viewBindings(ActivityMakePhotoBinding::inflate)
-
-    override fun getViewModelClass(): Class<MakePhotoViewModel> = MakePhotoViewModel::class.java
 
     private val glide by lazy(LazyThreadSafetyMode.NONE) {
         Glide.with(this)
     }
 
-    public override fun createComponent(): MakePhotoActivityComponent {
+    override fun provideViewModel(): ViewModel = initializeViewModel(MakePhotoViewModel::class.java)
+
+    override fun createComponent(): MakePhotoActivityComponent {
         return DaggerMakePhotoActivityComponent.factory().create(
             activity = this,
             makePhotoApi = getFlowEntity()
@@ -37,7 +38,7 @@ internal class MakePhotoActivity : BaseActivity<MakePhotoActivityComponent, Make
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == MakePhotoContract.REQUEST_CODE_MAKE_PHOTO && resultCode == RESULT_OK) {
-            viewModel.send(MakePhotoIntent.PhotoMade)
+            presenter.send(MakePhotoIntent.PhotoMade)
         }
     }
 
@@ -45,7 +46,7 @@ internal class MakePhotoActivity : BaseActivity<MakePhotoActivityComponent, Make
         super.onCreate(savedInstanceState)
 
         with(viewBinding) {
-            createPhotoButton.setOnClickListener { viewModel.send(MakePhotoIntent.MakePhoto) }
+            createPhotoButton.setOnClickListener { presenter.send(MakePhotoIntent.MakePhoto) }
             savePhotoButton.setOnClickListener { savePhoto() }
         }
     }
@@ -60,10 +61,10 @@ internal class MakePhotoActivity : BaseActivity<MakePhotoActivityComponent, Make
     }
 
     override fun onBackPressed() {
-        viewModel.send(MakePhotoIntent.Back)
+        presenter.send(MakePhotoIntent.Back)
     }
 
     private fun savePhoto() {
-        viewModel.send(MakePhotoIntent.SavePhoto(name = viewBinding.photoNameEditText.text.toString()))
+        presenter.send(MakePhotoIntent.SavePhoto(name = viewBinding.photoNameEditText.text.toString()))
     }
 }

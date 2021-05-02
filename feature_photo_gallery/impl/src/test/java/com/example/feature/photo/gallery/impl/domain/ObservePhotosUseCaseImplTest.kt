@@ -3,8 +3,8 @@ package com.example.feature.photo.gallery.impl.domain
 import com.example.core.test.RxJavaTestRule
 import com.example.repositories.api.photo.PhotoRepository
 import com.example.repositories.api.photo.entities.Photo
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import io.mockk.every
+import io.mockk.mockk
 import io.reactivex.rxjava3.core.Flowable
 import org.joda.time.Instant
 import org.junit.Before
@@ -19,7 +19,7 @@ class ObservePhotosUseCaseImplTest {
     @JvmField
     val rxRule = RxJavaTestRule()
 
-    private val repository: PhotoRepository = mock()
+    private val repository: PhotoRepository = mockk()
 
     private lateinit var useCase: ObservePhotosUseCaseImpl
 
@@ -38,8 +38,7 @@ class ObservePhotosUseCaseImplTest {
         val expected1 = listOf(photo1)
         val expected2 = listOf(photo1, photo2)
 
-        whenever(repository.observePhotos())
-            .thenReturn(Flowable.just(expected1, expected2))
+        every { repository.observePhotos()} returns Flowable.just(expected1, expected2)
 
         // do
         val testObserver = useCase().test()

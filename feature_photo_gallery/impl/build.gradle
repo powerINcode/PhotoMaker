@@ -17,8 +17,6 @@ dependencies {
     implementation domain.jodaTime
 
     testImplementation test.junit
-    testImplementation test.mockito
-    testImplementation test.mockitoInline
-    testImplementation test.mockitoKotlin
+    testImplementation test.mockk
     testImplementation core.test
 }

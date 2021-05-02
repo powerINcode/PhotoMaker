@@ -2,6 +2,7 @@ package com.example.feature.photo.gallery.impl.ui
 
 import android.os.Bundle
 import androidx.core.view.doOnLayout
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.feature.photo.gallery.impl.R
 import com.example.feature.photo.gallery.impl.databinding.ActivityPhotoGalleryBinding
@@ -11,15 +12,14 @@ import com.example.feature.photo.gallery.impl.ui.PhotoGalleryContract.*
 import com.example.feature.photo.gallery.impl.ui.adapter.PhotoGalleryAdapter
 import com.example.ui.activity.BaseActivity
 
-internal class PhotoGalleryActivity : BaseActivity<PhotoGalleryActivityComponent, PhotoGalleryState, PhotoGalleryViewModel>() {
+internal class PhotoGalleryActivity : BaseActivity<PhotoGalleryActivityComponent, PhotoGalleryState, PhotoGalleryPresenter>() {
 
     override val viewBinding: ActivityPhotoGalleryBinding by viewBindings(ActivityPhotoGalleryBinding::inflate)
 
-    override fun getViewModelClass(): Class<PhotoGalleryViewModel> = PhotoGalleryViewModel::class.java
 
     private val galleryAdapter = PhotoGalleryAdapter()
 
-    public override fun createComponent(): PhotoGalleryActivityComponent {
+    override fun createComponent(): PhotoGalleryActivityComponent {
         return DaggerPhotoGalleryActivityComponent.factory().create(
             activity = this,
             photoGalleryApi = getFlowEntity()
@@ -30,6 +30,8 @@ internal class PhotoGalleryActivity : BaseActivity<PhotoGalleryActivityComponent
         component.inject(this)
     }
 
+    override fun provideViewModel(): ViewModel = initializeViewModel(PhotoGalleryViewModel::class.java)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding.photoGalleryRecyclerView.doOnLayout {
@@ -38,7 +40,7 @@ internal class PhotoGalleryActivity : BaseActivity<PhotoGalleryActivityComponent
                 defaultItemSize = resources.getDimensionPixelSize(R.dimen.photo_size)
             )
 
-            viewModel.send(intent)
+            presenter.send(intent)
         }
 
         with(viewBinding) {
@@ -47,11 +49,11 @@ internal class PhotoGalleryActivity : BaseActivity<PhotoGalleryActivityComponent
                 adapter = galleryAdapter
             }
 
-            makeNewPhotoButton.setOnClickListener { viewModel.send(PhotoGalleryIntent.MakePhoto) }
+            makeNewPhotoButton.setOnClickListener { presenter.send(PhotoGalleryIntent.MakePhoto) }
         }
 
         galleryAdapter.onPhotoClick = { model ->
-            viewModel.send(PhotoGalleryIntent.PhotoClick(model.photoId))
+            presenter.send(PhotoGalleryIntent.PhotoClick(model.photoId))
         }
     }
 

@@ -4,34 +4,37 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.example.core.flow.FlowEntity
 import com.example.core.flow.FlowEntityProvider
 import com.example.core.flow.di.scope.ActivityScope
+import com.example.ui.mvi.presenter.Presenter
 import com.example.ui.mvi.view.MviVewInjectable
 import com.example.ui.mvi.view.MviView
 import com.example.ui.mvi.view.MviViewImpl
 import com.example.ui.mvi.view.ScreenConfiguration
-import com.example.ui.navigation.Navigator
-import com.example.ui.viewmodel.BaseViewModel
 import javax.inject.Inject
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-abstract class BaseActivity<Component : Any, State : Any, VM : BaseViewModel<State, *>> :
+abstract class BaseActivity<Component : Any, State : Any, P: Presenter> :
     AppCompatActivity(),
-    MviVewInjectable<Component, VM>,
-    MviView<Component, State, VM> by MviViewImpl() {
+    MviVewInjectable<Component>,
+    MviView<Component, State, P> by MviViewImpl() {
 
     protected abstract val viewBinding: ViewBinding
 
     @Inject
-    lateinit var navigator: Navigator
+    @ActivityScope
+    lateinit var presenter: P
 
     @Inject
     @ActivityScope
-    lateinit var modelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         onCreateMviView(::createComponent, ::inject)
@@ -40,19 +43,33 @@ abstract class BaseActivity<Component : Any, State : Any, VM : BaseViewModel<Sta
         setContentView(viewBinding.root)
 
         initialize(
-            viewModelClass = getViewModelClass(),
-            viewModelStoreOwner = this,
-            navigator = navigator,
-            modelFactory = modelFactory,
+            viewModel = provideViewModel(),
+            presenter = presenter
         )
 
         observeStateChange()
-            .subscribeTillAttach { (state, payload) -> render(state, payload) }
+            .subscribeTillDestroy { (state, payload) -> render(state, payload) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onAttachMviView()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        onDetachMviView()
     }
 
     override fun onDestroy() {
-        onDestroyMviView()
         super.onDestroy()
+        onDestroyMviView()
+    }
+
+    protected abstract fun provideViewModel(): ViewModel
+
+    protected fun <T: ViewModel> initializeViewModel(clazz: Class<T>): ViewModel {
+        return ViewModelProvider(this, viewModelFactory).get(clazz)
     }
 
     protected abstract fun render(state: State, payload: Any?)

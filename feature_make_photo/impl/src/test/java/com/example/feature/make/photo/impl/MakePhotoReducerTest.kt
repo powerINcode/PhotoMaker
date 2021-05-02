@@ -6,8 +6,8 @@ import com.example.feature.make.photo.impl.ui.MakePhotoContract
 import com.example.feature.make.photo.impl.ui.MakePhotoReducer
 import com.example.ui.textview.PureText
 import com.example.ui.textview.ResourceText
-import com.nhaarman.mockitokotlin2.mock
 import io.mockk.every
+import io.mockk.mockk
 import io.mockk.mockkStatic
 import org.junit.Before
 import org.junit.Rule
@@ -28,7 +28,7 @@ class MakePhotoReducerTest {
     fun setUp() {
         mockkStatic(Uri::class)
 
-        every { Uri.parse(any()) } returns mock()
+        every { Uri.parse(any()) } returns mockk()
     }
 
     @Test

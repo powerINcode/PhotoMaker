@@ -21,6 +21,7 @@ internal interface MakePhotoActivityModule {
     fun bindsMakePhotoViewModel(vm: MakePhotoViewModel): ViewModel
 
     companion object {
+
         @Provides
         fun provideApplication(activity: AppCompatActivity): Application = activity.application
     }

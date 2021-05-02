@@ -5,16 +5,13 @@ import com.example.core.test.RxJavaTestRule
 import com.example.feature.make.photo.impl.domain.CreateFileUseCase
 import com.example.feature.make.photo.impl.domain.DeleteFileUseCase
 import com.example.feature.make.photo.impl.domain.GetFileUriUseCase
-import com.example.feature.make.photo.impl.ui.MakePhotoContract
 import com.example.feature.make.photo.impl.ui.MakePhotoReducer
 import com.example.feature.make.photo.impl.ui.MakePhotoViewModel
 import com.example.feature_make_photo.api.domain.SavePhotoPathUseCase
-import com.example.ui.navigation.CreatePhotoCommand
-import com.example.ui.navigation.Finish
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import io.mockk.every
+import io.mockk.justRun
+import io.mockk.mockk
+import io.mockk.verify
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import org.junit.Before
@@ -30,21 +27,26 @@ class MakePhotoViewModelTest {
     @JvmField
     val rxRule = RxJavaTestRule()
 
-    private val createFileUseCase: CreateFileUseCase = mock()
-    private val getFileUriUseCase: GetFileUriUseCase = mock()
-    private val savePhotoPathUseCase: SavePhotoPathUseCase = mock()
-    private val deleteFileUseCase: DeleteFileUseCase = mock()
-    private val reducer: MakePhotoReducer = mock()
+    private val createFileUseCase: CreateFileUseCase = mockk()
+    private val getFileUriUseCase: GetFileUriUseCase = mockk()
+    private val savePhotoPathUseCase: SavePhotoPathUseCase = mockk()
+    private val deleteFileUseCase: DeleteFileUseCase = mockk()
+    private val reducer: MakePhotoReducer = mockk()
 
     private lateinit var viewModel: MakePhotoViewModel
 
-    private val fileUri = mock<Uri>()
+    private val fileUri = mockk<Uri>()
 
     @Before
     fun setUp() {
-        whenever(fileUri.toString()).thenReturn("")
-        whenever(createFileUseCase()).thenReturn(Single.just(mock()))
-        whenever(getFileUriUseCase(any())).thenReturn(Single.just(fileUri))
+        every { fileUri.toString() } returns ""
+        every { createFileUseCase() } returns Single.just(mockk())
+        every { getFileUriUseCase(any()) } returns Single.just(fileUri)
+        every { deleteFileUseCase(any()) } returns Completable.complete()
+        every { savePhotoPathUseCase(any()) } returns Completable.complete()
+        justRun { reducer.startMakingPhoto() }
+        justRun { reducer.photoMade(fileUri) }
+        justRun { reducer.startSavePhoto() }
 
         viewModel = MakePhotoViewModel(
             createFileUseCase = createFileUseCase,
@@ -56,67 +58,80 @@ class MakePhotoViewModelTest {
     }
 
     @Test
-    fun `WHEN file created successfully THEN navigate to to make photo`() {
+    fun deleteFile() {
         // do
-        val testObserver = viewModel.navigationSubject.test()
-        viewModel.init()
+        viewModel.makePhoto().test()
+            .assertNoErrors()
+            .assertComplete()
 
-        // assert
-        verify(createFileUseCase).invoke()
-        verify(getFileUriUseCase).invoke(any())
+        viewModel.deleteFile().test()
+            .assertNoErrors()
+            .assertComplete()
 
-        testObserver.assertNoErrors()
-            .assertValueCount(1)
-            .assertValue(CreatePhotoCommand(MakePhotoContract.REQUEST_CODE_MAKE_PHOTO, fileUri))
+        // verify
+        verify { deleteFileUseCase(fileUri) }
     }
 
     @Test
-    fun `WHEN user click back THEN remove not saved file`() {
+    fun photoMade() {
         // prepare
-        whenever(deleteFileUseCase(any())).thenReturn(Completable.complete())
+        justRun { reducer.photoMade(fileUri) }
 
         // do
-        viewModel.init()
-        viewModel.send(MakePhotoContract.MakePhotoIntent.Back)
+        viewModel.makePhoto().test()
+            .assertNoErrors()
+            .assertComplete()
 
-        // assert
-        verify(deleteFileUseCase).invoke(any())
+        viewModel.photoMade().test()
+            .assertNoErrors()
+            .assertComplete()
+
+        // verify
+        verify { reducer.photoMade(fileUri) }
     }
 
     @Test
-    fun `WHEN photo made THEN put it into reducer`() {
-        // do
-        viewModel.init()
-        viewModel.send(MakePhotoContract.MakePhotoIntent.PhotoMade)
-
-        // assert
-        verify(reducer).photoMade(any())
-    }
-
-    @Test
-    fun `WHEN photo saved and name not empty THEN close the screen`() {
+    fun savePhoto() {
         // prepare
         val name = "name"
-        val path = ""
-        val params = SavePhotoPathUseCase.Params(
-            name = name,
-            path = path
-        )
-
-        whenever(savePhotoPathUseCase(params)).thenReturn(Completable.complete())
+        val fileUriString = "fileUriString"
+        every { fileUri.toString() } returns fileUriString
 
         // do
-        viewModel.init()
-        val testObserver = viewModel.navigationSubject.test()
-        viewModel.send(MakePhotoContract.MakePhotoIntent.PhotoMade)
-        viewModel.send(MakePhotoContract.MakePhotoIntent.SavePhoto(name))
+        viewModel.makePhoto().test()
+            .assertNoErrors()
+            .assertComplete()
 
-        // assert
-        verify(reducer).startSavePhoto()
+        viewModel.photoMade().test()
+            .assertNoErrors()
+            .assertComplete()
 
-        verify(savePhotoPathUseCase).invoke(params)
-        testObserver.assertNoErrors()
-            .assertValueCount(1)
-            .assertValue(Finish)
+        viewModel.savePhoto(name).test()
+            .assertNoErrors()
+            .assertValue(Unit)
+
+        //verify
+        verify { reducer.startSavePhoto() }
+        verify {
+            savePhotoPathUseCase(
+                SavePhotoPathUseCase.Params(
+                    name = name,
+                    path = fileUriString
+                )
+            )
+        }
+    }
+
+    @Test
+    fun makePhoto() {
+        //do
+        viewModel.makePhoto().test()
+            .assertNoErrors()
+            .assertComplete()
+
+        // verify
+        verify { reducer.startMakingPhoto() }
+        verify { createFileUseCase() }
+        verify { getFileUriUseCase(any()) }
     }
 }

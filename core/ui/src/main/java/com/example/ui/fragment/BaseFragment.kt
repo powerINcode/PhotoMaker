@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.example.core.flow.FlowEntity
@@ -14,19 +15,19 @@ import com.example.core.flow.FlowEntityProvider
 import com.example.core.flow.di.scope.FragmentScope
 import com.example.ui.activity.BaseActivity
 import com.example.ui.fragment.di.qualifier.FragmentViewModelFactory
+import com.example.ui.mvi.presenter.Presenter
 import com.example.ui.mvi.view.MviVewInjectable
 import com.example.ui.mvi.view.MviView
 import com.example.ui.mvi.view.MviViewImpl
 import com.example.ui.mvi.view.ScreenConfiguration
-import com.example.ui.viewmodel.BaseViewModel
 import javax.inject.Inject
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-abstract class BaseFragment<Component : Any, State : Any, VM : BaseViewModel<State, *>> :
+abstract class BaseFragment<Component : Any, State : Any, P :Presenter> :
     Fragment(),
-    MviVewInjectable<Component, VM>,
-    MviView<Component, State, VM> by MviViewImpl() {
+    MviVewInjectable<Component>,
+    MviView<Component, State, P> by MviViewImpl() {
 
     protected abstract val viewBinding: ViewBinding
 
@@ -34,8 +35,18 @@ abstract class BaseFragment<Component : Any, State : Any, VM : BaseViewModel<Sta
 
     @Inject
     @FragmentScope
+    lateinit var presenter: P
+
+    @Inject
+    @FragmentScope
     @FragmentViewModelFactory
-    lateinit var modelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    protected abstract fun provideViewModel(): ViewModel
+
+    protected fun <T: ViewModel> initializeViewModel(clazz: Class<T>): ViewModel {
+        return ViewModelProvider(this, viewModelFactory).get(clazz)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return viewBinding.root
@@ -47,19 +58,27 @@ abstract class BaseFragment<Component : Any, State : Any, VM : BaseViewModel<Sta
         super.onViewCreated(view, savedInstanceState)
 
         initialize(
-            viewModelClass = getViewModelClass(),
-            viewModelStoreOwner = this,
-            navigator = activityMviView.navigator,
-            modelFactory = modelFactory,
+            viewModel = provideViewModel(),
+            presenter = presenter
         )
 
         observeStateChange()
-            .subscribeTillAttach { (state, payload) -> render(state, payload) }
+            .subscribeTillDestroy { (state, payload) -> render(state, payload) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onAttachMviView()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        onDetachMviView()
     }
 
     override fun onDestroy() {
-        onDestroyMviView()
         super.onDestroy()
+        onDestroyMviView()
     }
 
     protected abstract fun render(state: State, payload: Any?)

@@ -6,9 +6,9 @@ import com.example.feature.browse.photo.api.domain.GetPhotoByIdUseCase
 import com.example.feature.browse.photo.impl.ui.BrowsePhotoReducer
 import com.example.feature.browse.photo.impl.ui.BrowsePhotoViewModel
 import com.example.repositories.api.photo.entities.Photo
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import io.reactivex.rxjava3.core.Single
 import org.junit.Before
 import org.junit.Rule
@@ -23,9 +23,9 @@ class BrowsePhotoViewModelTest {
     val rxRule = RxJavaTestRule()
 
     private val photoId: Long = 1L
-    private val getPhotoByIdUseCase: GetPhotoByIdUseCase = mock()
-    private val reducer: BrowsePhotoReducer = mock()
-    private val photo: Photo = mock()
+    private val getPhotoByIdUseCase: GetPhotoByIdUseCase = mockk()
+    private val reducer: BrowsePhotoReducer = mockk()
+    private val photo: Photo = mockk()
 
     private lateinit var viewModel: BrowsePhotoViewModel
 
@@ -41,12 +41,12 @@ class BrowsePhotoViewModelTest {
     @Test
     fun `WHEN photo available THEN pass it into reducer`() {
         // prepare
-        whenever(getPhotoByIdUseCase(photoId)).thenReturn(Single.just(photo))
+        every { getPhotoByIdUseCase(photoId)} returns Single.just(photo)
 
         // do
         viewModel.init()
 
         // assert
-        verify(reducer).setPhoto(photo)
+        verify {reducer.setPhoto(photo) }
     }
 }

@@ -6,6 +6,7 @@ import android.os.Handler
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
+import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
 import com.example.feature.browse.photo.impl.databinding.ActivityBrowsePhotoBinding
 import com.example.feature.browse.photo.impl.di.BrowsePhotoActivityComponent
@@ -14,11 +15,11 @@ import com.example.feature.browse.photo.impl.ui.BrowsePhotoContract.BrowsePhotoI
 import com.example.feature.browse.photo.impl.ui.BrowsePhotoContract.BrowsePhotoState
 import com.example.ui.activity.BaseActivity
 
-internal class BrowsePhotoActivity : BaseActivity<BrowsePhotoActivityComponent, BrowsePhotoState, BrowsePhotoViewModel>() {
+internal class BrowsePhotoActivity : BaseActivity<BrowsePhotoActivityComponent, BrowsePhotoState, BrowsePhotoPresenter>() {
 
     override val viewBinding: ActivityBrowsePhotoBinding by viewBindings(ActivityBrowsePhotoBinding::inflate)
 
-    override fun getViewModelClass(): Class<BrowsePhotoViewModel> = BrowsePhotoViewModel::class.java
+    override fun provideViewModel(): ViewModel = initializeViewModel(BrowsePhotoViewModel::class.java)
 
     override fun createComponent(): BrowsePhotoActivityComponent {
         return DaggerBrowsePhotoActivityComponent.factory().create(
@@ -44,7 +45,7 @@ internal class BrowsePhotoActivity : BaseActivity<BrowsePhotoActivityComponent, 
         }
 
         viewBinding.showDummyButton.setOnClickListener {
-            viewModel.send(BrowsePhotoIntent.ShowDummyFragment)
+            presenter.send(BrowsePhotoIntent.ShowDummyFragment)
         }
     }
 

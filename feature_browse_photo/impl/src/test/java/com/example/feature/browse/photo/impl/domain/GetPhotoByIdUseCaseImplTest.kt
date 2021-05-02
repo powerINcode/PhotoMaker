@@ -3,8 +3,8 @@ package com.example.feature.browse.photo.impl.domain
 import com.example.core.test.RxJavaTestRule
 import com.example.repositories.api.photo.PhotoRepository
 import com.example.repositories.api.photo.entities.Photo
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import io.mockk.every
+import io.mockk.mockk
 import io.reactivex.rxjava3.core.Single
 import org.junit.Before
 import org.junit.Rule
@@ -20,7 +20,7 @@ class GetPhotoByIdUseCaseImplTest {
 
     private lateinit var useCase: GetPhotoByIdUseCaseImpl
 
-    private val photoRepository: PhotoRepository = mock()
+    private val photoRepository: PhotoRepository = mockk()
 
     @Before
     fun setUp() {
@@ -33,8 +33,8 @@ class GetPhotoByIdUseCaseImplTest {
     fun `test calculation`() {
         // prepare
         val photoId = 1L
-        val photo = mock<Photo>()
-        whenever(photoRepository.getPhoto(photoId)).thenReturn(Single.just(photo))
+        val photo = mockk<Photo>()
+        every { photoRepository.getPhoto(photoId) } returns Single.just(photo)
 
         // do
         val testObserver = useCase(photoId).test()

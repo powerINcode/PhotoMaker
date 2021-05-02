@@ -3,8 +3,8 @@ package com.example.feature.make.photo.impl.domain
 import android.app.Application
 import android.net.Uri
 import androidx.core.content.FileProvider
-import com.nhaarman.mockitokotlin2.mock
 import io.mockk.every
+import io.mockk.mockk
 import io.mockk.mockkStatic
 import org.junit.Before
 import org.junit.Test
@@ -15,12 +15,12 @@ import java.io.File
  */
 class GetFileUriUseCaseTest {
 
-    private val application: Application = mock()
+    private val application: Application = mockk()
 
     private lateinit var useCae: GetFileUriUseCase
 
-    private val file: File = mock()
-    private val uri: Uri = mock()
+    private val file: File = mockk()
+    private val uri: Uri = mockk()
 
     @Before
     fun setUp() {
