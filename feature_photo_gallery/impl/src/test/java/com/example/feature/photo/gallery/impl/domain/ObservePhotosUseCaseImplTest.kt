@@ -1,8 +1,6 @@
 package com.example.feature.photo.gallery.impl.domain
 
 import com.example.core.test.RxJavaTestRule
-import com.example.repositories.api.photo.PhotoRepository
-import com.example.repositories.api.photo.entities.Photo
 import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.rxjava3.core.Flowable
@@ -19,7 +17,7 @@ class ObservePhotosUseCaseImplTest {
     @JvmField
     val rxRule = RxJavaTestRule()
 
-    private val repository: PhotoRepository = mockk()
+    private val repository: com.example.api.PhotoRepository = mockk()
 
     private lateinit var useCase: ObservePhotosUseCaseImpl
 
@@ -33,8 +31,8 @@ class ObservePhotosUseCaseImplTest {
     @Test
     fun `test observe photos`() {
         // prepare
-        val photo1 = Photo(1, "name", "path", Instant.now())
-        val photo2 = Photo(2, "name", "path", Instant.now())
+        val photo1 = com.example.api.entities.Photo(1, "name", "path", Instant.now())
+        val photo2 = com.example.api.entities.Photo(2, "name", "path", Instant.now())
         val expected1 = listOf(photo1)
         val expected2 = listOf(photo1, photo2)
 

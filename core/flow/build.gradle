@@ -1,7 +1,8 @@
 apply plugin: 'com.android.library'
 
 dependencies {
-    implementation ui.appcompat
     implementation domain.kotlin
     implementation domain.dagger
+
+    implementation ui.appcompat
 }

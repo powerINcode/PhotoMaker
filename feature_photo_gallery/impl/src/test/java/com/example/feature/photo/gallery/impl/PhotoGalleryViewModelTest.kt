@@ -5,7 +5,6 @@ import com.example.feature.photo.gallery.api.domain.ObservePhotosUseCase
 import com.example.feature.photo.gallery.impl.domain.CalculateGridParamsUseCase
 import com.example.feature.photo.gallery.impl.ui.PhotoGalleryReducer
 import com.example.feature.photo.gallery.impl.ui.PhotoGalleryViewModel
-import com.example.repositories.api.photo.entities.Photo
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
@@ -48,7 +47,7 @@ class PhotoGalleryViewModelTest {
         // prepare
         val createdAt = Instant.now()
         val photos = listOf(
-            Photo(
+            com.example.api.entities.Photo(
                 id = 1,
                 name = "name",
                 path = "path",

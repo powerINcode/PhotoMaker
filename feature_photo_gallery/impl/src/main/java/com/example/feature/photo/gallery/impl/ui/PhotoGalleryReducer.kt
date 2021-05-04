@@ -3,7 +3,6 @@ package com.example.feature.photo.gallery.impl.ui
 import androidx.annotation.VisibleForTesting
 import com.example.feature.photo.gallery.impl.ui.PhotoGalleryContract.PhotoGalleryState
 import com.example.feature.photo.gallery.impl.ui.adapter.PhotoGalleryAdapter
-import com.example.repositories.api.photo.entities.Photo
 import com.example.ui.viewmodel.statereducer.StateReducer
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -11,7 +10,7 @@ import org.joda.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 internal class PhotoGalleryReducer @Inject constructor() : StateReducer<PhotoGalleryState>(PhotoGalleryState.EMPTY) {
-    fun setPhotos(photos: List<Photo>) {
+    fun setPhotos(photos: List<com.example.api.entities.Photo>) {
         commit { state ->
             state.copy(photos = photos.map { photo ->
                 PhotoGalleryAdapter.Model(

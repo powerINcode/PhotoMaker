@@ -1,24 +1,25 @@
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    implementation core.flow
     implementation core.domain
-
-    implementation ui.appcompat
-    implementation ui.constraintLayout
-
-    implementation domain.kotlin
-    implementation domain.ktxCore
-    implementation domain.rxJava
+    implementation core.flow
 
     implementation domain.dagger
     implementation domain.daggerAndroid
     implementation domain.daggerSupport
+    implementation domain.kotlin
+    implementation domain.ktxCore
+    implementation domain.rxJava
+
+    implementation ui.appcompat
+    implementation ui.constraintLayout
+
     kapt domain.daggerCompiler
     kapt domain.daggerProcessor
 
+    androidTestImplementation test.androidEspresso
+    androidTestImplementation test.androidJunit
+
     testImplementation test.junit
     testImplementation test.mockk
-    androidTestImplementation test.androidJunit
-    androidTestImplementation test.androidEspresso
 }

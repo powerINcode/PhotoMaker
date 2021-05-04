@@ -1,22 +1,7 @@
 apply plugin: 'com.android.library'
 
 dependencies {
-    implementation core.flow
-    implementation core.streams
-    implementation data.repo.api
-
-    implementation domain.kotlin
-    implementation domain.ktxCore
-    implementation domain.jodaTime
-    implementation domain.dagger
-    implementation domain.daggerAndroid
-    implementation domain.daggerSupport
-    kapt domain.daggerCompiler
-    kapt domain.daggerProcessor
-
-    implementation data.room
-    implementation data.roomRxJava
-    kapt data.roomCompiler
-
-    testImplementation test.junit
+    implementation repository.api
+    implementation repository.photo.api
+    implementation repository.photo.impl
 }

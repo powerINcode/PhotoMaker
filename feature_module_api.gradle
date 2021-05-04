@@ -1,6 +1,6 @@
 dependencies {
-    implementation core.flow
     implementation core.domain
+    implementation core.flow
 
     implementation domain.kotlin
     implementation domain.rxJava

@@ -1,8 +1,8 @@
 package com.example.feature.browse.photo.impl.di
 
+import com.example.api.PhotoRepositoryApi
 import com.example.core.flow.di.scope.FlowScope
 import com.example.feature.browse.photo.api.BrowsePhotoApi
-import com.example.repositories.api.photo.PhotoRepository
 import dagger.Component
 
 @FlowScope
@@ -11,7 +11,7 @@ import dagger.Component
         BrowsePhotoFlowModule::class
     ],
     dependencies = [
-        PhotoRepository.ComponentInjector::class
+        PhotoRepositoryApi::class
     ]
 )
 interface BrowsePhotoFlowComponent : BrowsePhotoApi {
@@ -19,7 +19,7 @@ interface BrowsePhotoFlowComponent : BrowsePhotoApi {
     @Component.Factory
     interface Factory {
         fun create(
-            photoRepository: PhotoRepository.ComponentInjector
+            photoRepositoryApi: PhotoRepositoryApi
         ): BrowsePhotoFlowComponent
     }
 }

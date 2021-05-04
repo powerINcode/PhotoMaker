@@ -5,7 +5,6 @@ import com.example.feature.browse.photo.api.BrowsePhotoFlowConfig
 import com.example.feature.browse.photo.api.domain.GetPhotoByIdUseCase
 import com.example.feature.browse.photo.impl.ui.BrowsePhotoReducer
 import com.example.feature.browse.photo.impl.ui.BrowsePhotoViewModel
-import com.example.repositories.api.photo.entities.Photo
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -25,7 +24,7 @@ class BrowsePhotoViewModelTest {
     private val photoId: Long = 1L
     private val getPhotoByIdUseCase: GetPhotoByIdUseCase = mockk()
     private val reducer: BrowsePhotoReducer = mockk()
-    private val photo: Photo = mockk()
+    private val photo: com.example.api.entities.Photo = mockk()
 
     private lateinit var viewModel: BrowsePhotoViewModel
 

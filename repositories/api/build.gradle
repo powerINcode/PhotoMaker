@@ -1,9 +1,7 @@
 apply plugin: 'com.android.library'
 
 dependencies {
-    implementation core.flow
+    implementation repository.photo.api
 
-    implementation domain.kotlin
-    implementation domain.rxJava
     implementation domain.jodaTime
 }

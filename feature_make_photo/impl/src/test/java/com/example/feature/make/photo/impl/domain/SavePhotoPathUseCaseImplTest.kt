@@ -1,7 +1,6 @@
 package com.example.feature.make.photo.impl.domain
 
 import com.example.feature_make_photo.api.domain.SavePhotoPathUseCase
-import com.example.repositories.api.photo.PhotoRepository
 import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.rxjava3.core.Completable
@@ -13,7 +12,7 @@ import org.junit.Test
  */
 class SavePhotoPathUseCaseImplTest {
 
-    private val photoRepository: PhotoRepository = mockk()
+    private val photoRepository: com.example.api.PhotoRepository = mockk()
 
     private lateinit var useCae: SavePhotoPathUseCaseImpl
 

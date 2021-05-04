@@ -1,8 +1,8 @@
 package com.example.feature.make.photo.impl.di
 
+import com.example.api.PhotoRepositoryApi
 import com.example.core.flow.di.scope.FlowScope
 import com.example.feature_make_photo.api.MakePhotoApi
-import com.example.repositories.api.photo.PhotoRepository
 import dagger.Component
 
 @FlowScope
@@ -11,7 +11,7 @@ import dagger.Component
         MakePhotoFlowModule::class
     ],
     dependencies = [
-        PhotoRepository.ComponentInjector::class
+        PhotoRepositoryApi::class
     ]
 )
 interface MakePhotoFlowComponent : MakePhotoApi {
@@ -19,7 +19,7 @@ interface MakePhotoFlowComponent : MakePhotoApi {
     @Component.Factory
     interface Factory {
         fun create(
-            photoRepository: PhotoRepository.ComponentInjector
+            photoRepositoryApi: PhotoRepositoryApi
         ): MakePhotoFlowComponent
     }
 }

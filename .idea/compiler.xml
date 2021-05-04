@@ -14,7 +14,10 @@
       <module name="PhotoMaker.feature_photo_gallery.api" target="11" />
       <module name="PhotoMaker.feature_photo_gallery.impl" target="11" />
       <module name="PhotoMaker.repositories.api" target="11" />
+      <module name="PhotoMaker.repositories.core" target="11" />
       <module name="PhotoMaker.repositories.impl" target="11" />
+      <module name="PhotoMaker.repositories.photo.api" target="11" />
+      <module name="PhotoMaker.repositories.photo.impl" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

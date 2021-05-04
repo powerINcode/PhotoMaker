@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
 
 dependencies {
-    implementation data.repo.api
+    implementation repository.photo.api
 }

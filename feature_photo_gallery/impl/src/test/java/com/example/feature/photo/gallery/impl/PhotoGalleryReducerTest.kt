@@ -4,7 +4,6 @@ import com.example.core.test.RxJavaTestRule
 import com.example.feature.photo.gallery.impl.ui.PhotoGalleryContract.PhotoGalleryState
 import com.example.feature.photo.gallery.impl.ui.PhotoGalleryReducer
 import com.example.feature.photo.gallery.impl.ui.adapter.PhotoGalleryAdapter
-import com.example.repositories.api.photo.entities.Photo
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.Rule
@@ -24,7 +23,7 @@ class PhotoGalleryReducerTest {
     fun `test set photos`() {
         // prepare
         val createdAt = Instant.now()
-        val photo = Photo(
+        val photo = com.example.api.entities.Photo(
             id = 1,
             name = "name",
             path = "path",

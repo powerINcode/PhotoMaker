@@ -1,0 +1,17 @@
+plugins {
+    id 'com.android.library'
+}
+
+dependencies {
+    implementation core.streams
+
+    implementation data.room
+    implementation data.roomRxJava
+
+    implementation domain.jodaTime
+
+    implementation repository.core
+    implementation repository.photo.api
+
+    kapt data.roomCompiler
+}

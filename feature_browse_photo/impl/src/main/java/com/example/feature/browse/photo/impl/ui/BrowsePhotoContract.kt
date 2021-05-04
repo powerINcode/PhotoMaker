@@ -1,10 +1,8 @@
 package com.example.feature.browse.photo.impl.ui
 
-import com.example.repositories.api.photo.entities.Photo
-
 internal interface BrowsePhotoContract {
     data class BrowsePhotoState(
-        val photo: Photo? = null
+        val photo: com.example.api.entities.Photo? = null
     ) {
         companion object {
             val EMPTY = BrowsePhotoState(

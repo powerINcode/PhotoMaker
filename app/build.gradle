@@ -37,39 +37,41 @@ android {
 }
 
 dependencies {
-
     implementation core.flow
     implementation core.ui
-
-    implementation ui.appcompat
-    implementation ui.material
-    implementation ui.constraintLayout
-
-    implementation domain.kotlin
-    implementation domain.ktxCore
 
     implementation domain.dagger
     implementation domain.daggerAndroid
     implementation domain.daggerSupport
-    kapt domain.daggerCompiler
-    kapt domain.daggerProcessor
+    implementation domain.kotlin
+    implementation domain.ktxCore
 
-    implementation data.repo.api
-    implementation data.repo.impl
-
+    implementation feature.browsePhoto.api
+    implementation feature.browsePhoto.impl
     implementation feature.makePhoto.api
     implementation feature.makePhoto.impl
     implementation feature.photoGallery.api
     implementation feature.photoGallery.impl
-    implementation feature.browsePhoto.api
-    implementation feature.browsePhoto.impl
+
+    implementation repository.api
+    implementation repository.impl
+    implementation repository.photo.api
+    implementation repository.photo.impl
+
+    implementation ui.appcompat
+    implementation ui.constraintLayout
+    implementation ui.material
+
+    kapt domain.daggerCompiler
+    kapt domain.daggerProcessor
+
+    androidTestImplementation test.androidEspresso
+    androidTestImplementation test.androidEspressoIntent
+    androidTestImplementation test.androidJunit
+    androidTestImplementation test.androidRules
+    androidTestImplementation test.androidRunner
+    androidTestImplementation test.uiautomator
 
     testImplementation test.junit
-    androidTestImplementation test.androidJunit
-    androidTestImplementation test.androidEspresso
-    androidTestImplementation test.androidRunner
-    androidTestImplementation test.androidRules
-    androidTestImplementation test.androidEspressoIntent
-    androidTestImplementation test.uiautomator
 
 }

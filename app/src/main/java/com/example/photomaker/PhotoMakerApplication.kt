@@ -5,17 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.core.flow.FlowConfig
 import com.example.core.flow.FlowEntity
 import com.example.core.flow.FlowEntityProvider
-import com.example.feature.browse.photo.impl.di.DaggerBrowsePhotoFlowComponent
-import com.example.feature.make.photo.impl.di.DaggerMakePhotoFlowComponent
-import com.example.feature.photo.gallery.impl.di.DaggerPhotoGalleryFlowComponent
 import com.example.photomaker.di.ApplicationComponent
-import com.example.photomaker.di.DaggerApplicationComponent
-import com.example.repositories.impl.di.DaggerRepositoryComponent
+import com.example.photomaker.di.DiApplication
 import com.example.ui.navigation.NavigationProvider
 
 class PhotoMakerApplication : Application(), FlowEntityProvider, NavigationProvider {
 
     private lateinit var applicationComponent: ApplicationComponent
+
+    private val diApplication: DiApplication = DiApplication(this)
 
     private val flowEntities by lazy(LazyThreadSafetyMode.NONE) {
         applicationComponent.getApplicationFlowEntities()
@@ -28,15 +26,7 @@ class PhotoMakerApplication : Application(), FlowEntityProvider, NavigationProvi
     override fun onCreate() {
         super.onCreate()
 
-        val repositoriesApi = DaggerRepositoryComponent.factory().create(application = this)
-        applicationComponent = DaggerApplicationComponent.factory().create(
-            repositoriesApi = repositoriesApi,
-            makePhotoApi = DaggerMakePhotoFlowComponent.factory().create(
-                photoRepository = repositoriesApi
-            ),
-            photoGalleryApi = DaggerPhotoGalleryFlowComponent.factory().create(repositoriesApi),
-            browsePhotoApi = DaggerBrowsePhotoFlowComponent.factory().create(repositoriesApi)
-        )
+        applicationComponent = diApplication.build()
     }
 
     @Suppress("UNCHECKED_CAST")

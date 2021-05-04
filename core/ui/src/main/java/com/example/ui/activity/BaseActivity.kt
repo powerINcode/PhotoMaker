@@ -34,8 +34,6 @@ abstract class BaseActivity<Component : Any, State : Any, P: Presenter> :
     @ActivityScope
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         onCreateMviView(::createComponent, ::inject)
 

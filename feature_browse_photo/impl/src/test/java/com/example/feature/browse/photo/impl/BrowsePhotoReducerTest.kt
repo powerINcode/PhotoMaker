@@ -3,7 +3,6 @@ package com.example.feature.browse.photo.impl
 import com.example.core.test.RxJavaTestRule
 import com.example.feature.browse.photo.impl.ui.BrowsePhotoContract
 import com.example.feature.browse.photo.impl.ui.BrowsePhotoReducer
-import com.example.repositories.api.photo.entities.Photo
 import io.mockk.mockk
 import org.junit.Before
 import org.junit.Rule
@@ -27,7 +26,7 @@ class BrowsePhotoReducerTest {
     @Test
     fun `test set photo`() {
         // prepare
-        val photo = mockk<Photo>()
+        val photo = mockk<com.example.api.entities.Photo>()
         val expected = BrowsePhotoContract.BrowsePhotoState.EMPTY.copy(
             photo = photo
         )

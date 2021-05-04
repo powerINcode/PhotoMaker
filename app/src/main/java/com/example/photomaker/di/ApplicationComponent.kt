@@ -6,7 +6,7 @@ import com.example.core.flow.FlowEntity
 import com.example.feature.browse.photo.api.BrowsePhotoApi
 import com.example.feature.photo.gallery.api.PhotoGalleryApi
 import com.example.feature_make_photo.api.MakePhotoApi
-import com.example.repositories.api.RepositoriesApi
+import com.example.repositories.api.photo.RepositoriesApi
 import dagger.Component
 import javax.inject.Singleton
 
@@ -26,6 +26,7 @@ import javax.inject.Singleton
 interface ApplicationComponent {
 
     fun getApplicationFlowEntities(): Map<Class<out FlowEntity>, @JvmSuppressWildcards FlowEntity>
+
     fun getApplicationNavigation(): Map<Class<out FlowConfig>, @JvmSuppressWildcards Class<out AppCompatActivity>>
 
     @Component.Factory

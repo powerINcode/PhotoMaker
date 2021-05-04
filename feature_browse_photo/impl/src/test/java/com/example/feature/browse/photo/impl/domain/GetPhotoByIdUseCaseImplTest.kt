@@ -1,8 +1,6 @@
 package com.example.feature.browse.photo.impl.domain
 
 import com.example.core.test.RxJavaTestRule
-import com.example.repositories.api.photo.PhotoRepository
-import com.example.repositories.api.photo.entities.Photo
 import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.rxjava3.core.Single
@@ -20,7 +18,7 @@ class GetPhotoByIdUseCaseImplTest {
 
     private lateinit var useCase: GetPhotoByIdUseCaseImpl
 
-    private val photoRepository: PhotoRepository = mockk()
+    private val photoRepository: com.example.api.PhotoRepository = mockk()
 
     @Before
     fun setUp() {
@@ -33,7 +31,7 @@ class GetPhotoByIdUseCaseImplTest {
     fun `test calculation`() {
         // prepare
         val photoId = 1L
-        val photo = mockk<Photo>()
+        val photo = mockk<com.example.api.entities.Photo>()
         every { photoRepository.getPhoto(photoId) } returns Single.just(photo)
 
         // do
